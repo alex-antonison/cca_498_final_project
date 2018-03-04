@@ -14,7 +14,7 @@ create external table answers (
   parent_id int,
   score int,
   body string
-  )
+)
 COMMENT 'Stack overflow answers'
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','

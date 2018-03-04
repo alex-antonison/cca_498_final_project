@@ -9,7 +9,7 @@
 create external table tags (
   id int,
   tag string
-  )
+)
 COMMENT 'Tags associate with stack overflow questions'
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','

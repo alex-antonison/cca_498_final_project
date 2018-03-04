@@ -13,7 +13,7 @@ create external table questions (
   score int,
   title string,
   body string
-  )
+)
 COMMENT 'Stack overflow questions'
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
