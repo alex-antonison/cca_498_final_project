@@ -16,7 +16,11 @@ create external table answers (
   body string
 )
 COMMENT 'Stack overflow answers'
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ','
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+   'separatorChar' = ',',
+   'quoteChar' = '\"',
+   'escapeChar' = '\\'
+   )
 STORED AS TEXTFILE
 location 's3://alex-antonison-data-lake/answers/'

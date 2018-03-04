@@ -15,7 +15,11 @@ create external table questions (
   body string
 )
 COMMENT 'Stack overflow questions'
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ','
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+   'separatorChar' = ',',
+   'quoteChar' = '\"',
+   'escapeChar' = '\\'
+   )
 STORED AS TEXTFILE
 location 's3://alex-antonison-data-lake/questions/'
