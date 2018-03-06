@@ -16,15 +16,23 @@
     - `hbase thrift start -p 9090 --infoport 9095`
     - `/usr/hdp/current/hbase-master/bin/hbase-daemon.sh start thrift -p <port> --infoport <infoport>`
 
-## HBase Setup
+- Start Neo4J
 
+## Setup
+
+### HBase
 Create following two tables
 - `create 'questions','raw','mod'`
 - `create 'answers','raw','mod'`
 
-## Data
+### NEO4j
+- Database Name : `cca`
+- Password : `cca`
 
-### Answers
+
+### Data
+
+#### Answers
 
 
 | Id|OwnerUserId|        CreationDate|ParentId|Score|                Body|
