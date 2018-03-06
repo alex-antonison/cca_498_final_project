@@ -1,0 +1,159 @@
+Id,OwnerUserId,CreationDate,ParentId,Score,Body
+497,50,2008-08-02T16:56:53Z,469,4,"<p>open up a terminal (Applications-&gt;Utilities-&gt;Terminal) and type this in:</p>
+
+<pre><code>locate InsertFontHere<br></code></pre>
+
+<p>This will spit out every file that has the name you want.</p>
+
+<p>Warning: there may be alot to wade through.</p>"
+518,153,2008-08-02T17:42:28Z,469,2,"<p>I haven't been able to find anything that does this directly.  I think you'll have to iterate through the various font folders on the system: <code>/System/Library/Fonts</code>, <code>/Library/Fonts</code>, and there can probably be a user-level directory as well <code>~/Library/Fonts</code>.</p>
+"
+536,161,2008-08-02T18:49:07Z,502,9,"<p>You can use ImageMagick's convert utility for this, see some examples in <a href=""https://web.archive.org/web/20120413111338/http://studio.imagemagick.org/pipermail/magick-users/2002-May/002636.html"" rel=""nofollow"">http://studio.imagemagick.org/pipermail/magick-users/2002-May/002636.html</a>
+:</p>
+
+<blockquote>
+<pre><code>Convert taxes.pdf taxes.jpg
+</code></pre>
+
+  <p>Will convert a two page PDF file into [2] jpeg files: taxes.jpg.0,
+  taxes.jpg.1</p>
+
+  <p>I can also convert these JPEGS to a thumbnail as follows:</p>
+
+<pre><code>convert -size 120x120 taxes.jpg.0 -geometry 120x120 +profile '*' thumbnail.jpg
+</code></pre>
+
+  <p>I can even convert the PDF directly to a jpeg thumbnail as follows:</p>
+
+<pre><code>convert -size 120x120 taxes.pdf -geometry 120x120 +profile '*' thumbnail.jpg
+</code></pre>
+
+  <p>This will result in a thumbnail.jpg.0 and thumbnail.jpg.1 for the two
+  pages.</p>
+</blockquote>
+"
+538,156,2008-08-02T18:56:56Z,535,23,"<p>One possibility is Hudson.  It's written in Java, but there's integration with Python projects:</p>
+
+<blockquote>
+  <p><a href=""http://redsolo.blogspot.com/2007/11/hudson-embraces-python.html"" rel=""nofollow"">Hudson embraces Python</a></p>
+</blockquote>
+
+<p>I've never tried it myself, however.</p>
+
+<p>(<strong>Update</strong>, Sept. 2011: After a trademark dispute Hudson has been renamed to <a href=""http://jenkins-ci.org/"" rel=""nofollow"">Jenkins</a>.)</p>
+"
+541,157,2008-08-02T19:06:40Z,535,20,"<p>We run <a href=""http://buildbot.net/trac"">Buildbot - Trac</a> at work, I haven't used it too much since my code base isn't part of the release cycle yet. But we run the tests on different environments (OSX/Linux/Win) and it sends emails --and it's written in python.</p>"
+595,116,2008-08-03T01:17:36Z,594,25,"<p>The canonical way is to use the built-in cursor iterator.</p>
+
+<pre><code>curs.execute('select * from people')
+for row in curs:
+    print row
+</code></pre>
+
+<hr>
+
+<p>You can use <code>fetchall()</code> to get all rows at once.</p>
+
+<pre><code>for row in curs.fetchall():
+    print row
+</code></pre>
+
+<p>It can be convenient to use this to create a Python list containing the values returned:</p>
+
+<pre><code>curs.execute('select first_name from people')
+names = [row[0] for row in curs.fetchall()]
+</code></pre>
+
+<p>This can be useful for smaller result sets, but can have bad side effects if the result set is large.</p>
+
+<ul>
+<li><p>You have to wait for the entire result set to be returned to
+your client process.</p></li>
+<li><p>You may eat up a lot of memory in your client to hold
+the built-up list.</p></li>
+<li><p>It may take a while for Python to construct and deconstruct the
+list which you are going to immediately discard anyways.</p></li>
+</ul>
+
+<hr>
+
+<p>If you know there's a single row being returned in the result set you can call <code>fetchone()</code> to get the single row.</p>
+
+<pre><code>curs.execute('select max(x) from t')
+maxValue = curs.fetchone()[0]
+</code></pre>
+
+<hr>
+
+<p>Finally, you can loop over the result set fetching one row at a time.  In general, there's no particular advantage in doing this over using the iterator.</p>
+
+<pre><code>row = curs.fetchone()
+while row:
+    print row
+    row = curs.fetchone()
+</code></pre>
+"
+660,197,2008-08-03T12:09:18Z,535,14,"<p>Second the Buildbot - Trac integration. You can find more information about the integration on the <a href=""http://buildbot.net/trac/wiki/BuildbotAndTrac"">Buildbot website</a>. At my previous job, we wrote and used the plugin they mention (tracbb).
+What the plugin does is rewriting all of the Buildbot urls so you can use Buildbot from within Trac. (http://example.com/tracbb).</p>
+
+<p>The really nice thing about Buildbot is that the configuration is written in Python. You can integrate your own Python code directly to the configuration. It's also very easy to write your own BuildSteps to execute specific tasks.</p>
+
+<p>We used BuildSteps to get the source from SVN, pull the dependencies, publish test results to WebDAV, etcetera.</p>
+
+<p>I wrote an X10 interface so we could send signals with build results. When the build failed, we switched on a red lava lamp. When the build succeeded, a green lava lamp switched on. Good times :-)</p>"
+701,111,2008-08-03T14:30:50Z,683,3,"<p>No, you were not dreaming.  Python has a pretty excellent list comprehension system that lets you manipulate lists pretty elegantly, and depending on exactly what you want to accomplish, this can be done a couple of ways.  In essence, what you're doing is saying ""For item in list if criteria.matches"", and from that you can just iterate through the results or dump the results into a new list.</p>
+
+<p>I'm going to crib an example from <a href=""http://diveintopython.net/functional_programming/filtering_lists.html"" rel=""nofollow"">Dive Into Python</a> here, because it's pretty elegant and they're smarter than I am.  Here they're getting a list of files in a directory, then filtering the list for all files that match a regular expression criteria.</p>
+
+<blockquote>
+<pre><code>    files = os.listdir(path)
+    test = re.compile(""test\.py$"", re.IGNORECASE)
+    files = [f for f in files if test.search(f)]
+</code></pre>
+</blockquote>
+
+<p>You could do this without regular expressions, for your example, for anything where your expression at the end returns true for a match.  There are other options like using the filter() function, but if I were going to choose, I'd go with this.</p>
+
+<p>Eric Sipple</p>
+"
+735,145,2008-08-03T15:47:22Z,683,-2,"<p>I think:</p>
+
+<pre><code>#!/bin/python<br>bar in dict(Foo)<br></code></pre>
+
+<p>Is what you are thinking of.  When trying to see if a certain key exists within a dictionary in python (python's version of a hash table) there are two ways to check.  First is the <strong><code>has_key()</code></strong> method attached to the dictionary and second is the example given above.  It will return a boolean value.</p>
+
+<p>That should answer your question.</p>
+
+<p>And now a little off topic to tie this in to the <em>list comprehension</em> answer previously given (for a bit more clarity).  <em>List Comprehensions</em> construct a list from a basic <em>for loop</em> with modifiers.  As an example (to clarify slightly), a way to use the <code>in dict</code> language construct in a _list comprehension_:</p>
+
+<p>Say you have a two dimensional dictionary <strong><code>foo</code></strong> and you only want the second dimension dictionaries which contain the key <strong><code>bar</code></strong>.  A relatively straightforward way to do so would be to use a <em>list comprehension</em> with a conditional as follows:</p>
+
+<pre><code>#!/bin/python<br>baz = dict([(key, value) for key, value in foo if bar in value])<br></code></pre>
+
+<p>Note the <strong><code>if bar in value</code></strong> at the end of the statement<strong>, this is a modifying clause which tells the <em>list comprehension</em> to only keep those key-value pairs which meet the conditional.</strong>  In this case <strong><code>baz</code></strong> is a new dictionary which contains only the dictionaries from foo which contain bar (Hopefully I didn't miss anything in that code example... you may have to take a look at the list comprehension documentation found in <a href=""http://docs.python.org/tut/node7.html#SECTION007140000000000000000"" rel=""nofollow"">docs.python.org tutorials</a> and at <a href=""http://www.secnetix.de/olli/Python/list_comprehensions.hawk"" rel=""nofollow"">secnetix.de</a>, both sites are good references if you have questions in the future.).</p>"
+745,154,2008-08-03T15:59:19Z,683,8,"<p>Are you looking to get a list of objects that have a certain attribute? If so, a <a href=""http://docs.python.org/tut/node7.html#SECTION007140000000000000000"">list comprehension</a> is the right way to do this.</p>
+
+<pre><code>result = [obj for obj in listOfObjs if hasattr(obj, 'attributeName')]<br></code></pre>"
+750,199,2008-08-03T16:13:29Z,683,2,"<p>What I was thinking of can be achieved using list comprehensions, but I thought that there was a function that did this in a slightly neater way.</p>
+
+<p>i.e. 'bar' is a list of objects, all of which have the attribute 'id'</p>
+
+<p>The mythical functional way:</p>
+
+<pre><code>foo = 12<br>foo in iter_attr(bar, 'id')</code></pre>
+
+<p>The list comprehension way:</p>
+
+<pre><code>foo = 12<br>foo in [obj.id for obj in bar]</code></pre>
+
+<p>In retrospect the list comprehension way is pretty neat anyway.</p>"
+764,NA,2008-08-03T17:40:25Z,742,0,"<p>Sounds to me like you're trying to combine things that shouldn't be combined.  If you need to do different processing in your view depending on if it's a User or Group object you're trying to look at then you should use two different view functions.</p>
+
+<p>On the other hand there can be common idioms you'd want to extract out of your object_detail type views... perhaps you could use a decorator or just helper functions?</p>
+
+<p>-Dan</p>"
+777,150,2008-08-03T18:32:27Z,766,5,"<p>I don't have any experience with <a href=""http://www.SiteGround.com"" rel=""nofollow"">http://www.SiteGround.com</a> as a web host personally.  </p>
+
+<p>This is just a guess, but it's common for a shared host to support Python and MySQL with the MySQLdb module (e.g., GoDaddy does this).  Try the following CGI script to see if MySQLdb is installed.</p>
+
+<pre><code>#!/usr/bin/python<br><br>module_name = 'MySQLdb'<br>head = '''Content-Type: text/html<br><br>%s is ''' % module_name<br><br>try:<br>    __import__(module_name)<br>    print head + 'installed'<br>except ImportError:<br>    print head + 'not installed'<br></code></pre>"
