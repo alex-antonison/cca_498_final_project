@@ -16,6 +16,12 @@
     - `hbase thrift start -p 9090 --infoport 9095`
     - `/usr/hdp/current/hbase-master/bin/hbase-daemon.sh start thrift -p <port> --infoport <infoport>`
 
+## HBase Setup
+
+Create following two tables
+- `create 'questions','raw','mod'`
+- `create 'answers','raw','mod'`
+
 ## Data
 
 ### Answers
