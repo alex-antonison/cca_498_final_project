@@ -25,10 +25,14 @@ Create following two tables
 - `create 'questions','raw','mod'`
 - `create 'answers','raw','mod'`
 
-### NEO4j
+### Neo4j
 - Database Name : `cca`
+- User Name : `neo4j`
 - Password : `cca`
+- url : `bolt://localhost:7687`
 
+#### Clean DB
+- `MATCH (n); DETACH DELETE n`
 
 ### Data
 
