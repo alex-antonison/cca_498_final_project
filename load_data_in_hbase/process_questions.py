@@ -40,4 +40,6 @@ def bulk_insert(batch):
 
 rdd.foreachPartition(bulk_insert)
 
+
+
 spark.stop()
