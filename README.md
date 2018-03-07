@@ -33,6 +33,7 @@ Create following two tables
 
 #### Clean DB
 - `MATCH (n); DETACH DELETE n`
+- `create index on :Question(id);`
 
 ### Data
 
@@ -66,6 +67,7 @@ Create following two tables
 - `MATCH (a)-[:ANS_OF]->(b)
 RETURN b, COLLECT(a) as Questions
 ORDER BY SIZE(Questions) DESC LIMIT 5`
+
 
 ## Architecture
 
