@@ -96,10 +96,6 @@ def covert_to_int(val):
         return int(val)
 
 
-def covert_to_int(val):
-    return val
-
-
 def batch_insert_graph(batch):
     adapator = InsertQuestionData('bolt://localhost:7687', 'neo4j', 'cca')
     for t in batch:
