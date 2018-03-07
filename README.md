@@ -62,6 +62,11 @@ Create following two tables
     - `process_questions.py`
     - `process_answers.py`
 
+## Additional Queries
+- `MATCH (a)-[:ANS_OF]->(b)
+RETURN b, COLLECT(a) as Questions
+ORDER BY SIZE(Questions) DESC LIMIT 5`
+
 ## Architecture
 
 * We should store our files in a cheap persistent storage, such as S3 or Azure Blob
