@@ -4,20 +4,7 @@ import happybase
 from neo4j.v1 import GraphDatabase
 
 server = "localhost"
-table_name = "question"
-
-spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.debug.maxToStringFields", 99999) \
-    .config("spark.executor.memory", "8gb") \
-    .getOrCreate()
-
-# df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/small/Questions_10.csv')
-# df = spark.read.format('csv').option('header', 'false').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/small/Questions_1.csv')
-# df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/full/Questions.csv')
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/full/Questions_m.csv')
-
-df = df.dropna()
-#df.count()
+table_name = "q"
 
 
 def remove_html_tags(text):
@@ -41,16 +28,6 @@ def remove_bad_record(line):
         return False
 
 
-rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
-
-#rdd.count()
-
-# Remove HTML tags
-rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
-
-#rdd.count()
-
-
 def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name)
     for t in batch:
@@ -67,10 +44,6 @@ def bulk_insert_hbase(batch):
             table.put(key, value)
         except:
             print(t)
-        # table.put(key, value)
-
-
-rdd.foreachPartition(bulk_insert_hbase)
 
 
 class InsertQuestionData(object):
@@ -93,7 +66,7 @@ def covert_to_int(val):
     if val == 'NA':
         return -1
     else:
-        return int(val)
+        return int(float(val))
 
 
 def batch_insert_graph(batch):
@@ -103,6 +76,20 @@ def batch_insert_graph(batch):
 
     adapator.close()
 
+
+spark = SparkSession.builder.master("local[*]").appName("CCA") \
+    .config("spark.debug.maxToStringFields", 999999) \
+    .config("spark.executor.memory", "10gb") \
+    .getOrCreate()
+
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/full/Questions_New.csv')
+
+rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
+
+# Remove HTML tags
+rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
+
+rdd.foreachPartition(bulk_insert_hbase)
 
 rdd.foreachPartition(batch_insert_graph)
 
