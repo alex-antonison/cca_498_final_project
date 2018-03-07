@@ -52,7 +52,15 @@ Create following two tables
 |764|         NA|2008-08-03T17:40:25Z|     742|    0|<p>Sounds to me l...|
 |777|        150|2008-08-03T18:32:27Z|     766|    5|"<p>I don't have ...|
 
+## Execution Sequence
 
+- Save the file in UTF-8 format ( manual )
+- Pre-Processor Scripts
+    - `q_pre_processor.py`
+    - `a_pre_processor.py`
+- Load Data into HBase and Neo4J
+    - `process_questions.py`
+    - `process_answers.py`
 
 ## Architecture
 
