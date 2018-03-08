@@ -32,7 +32,7 @@ class InsertTagNode(object):
 
     @staticmethod
     def _create_node_tx(tx, title):
-            tx.run("CREATE (t:Tag {title:$title}) ", title=title)
+        tx.run("CREATE (t:Tag {title:$title}) ", title=title)
 
 
 class InsertTagData(object):
@@ -66,6 +66,7 @@ def batch_insert_graph(batch):
     for t in batch:
         adapator.save_node(t)
     adapator.close()
+
 
 def batch_create_edge(batch):
     adapator = InsertTagData('bolt://localhost:7687', 'neo4j', 'cca')
