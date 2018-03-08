@@ -34,7 +34,8 @@ Create following two tables
 #### Clean DB
 - `MATCH (n); DETACH DELETE n`
 - `create index on :Question(id);`
-
+- `create index on :Tag(title)`
+- `MATCH (t:Tag {title:'python'}) DETACH DELETE t`
 ### Data
 
 #### Answers
