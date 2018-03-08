@@ -12,7 +12,7 @@
   * 4 - True or False as to whether you want to unzip the files or not
   
 ### An example run script is the following:
-python python create-local-dev-files.py 10000 50 local-dev True
+python create-local-dev-files.py 10000 50 local-dev True
 
 * This will create a sample set of 
   * 10,000 questions
