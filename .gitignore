@@ -1,4 +1,4 @@
-data/raw/
+raw_data/raw/
 .DS_Store
 *.zip
 .idea
