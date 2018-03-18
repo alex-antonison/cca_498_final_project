@@ -15,7 +15,7 @@ print("Random Seed:", random_sample_seed)
 print("File Location:", file_storage_location)
 print("Unzip Files:", unzip_files)
 
-
+# TODO Remove python tags from tags csv
 
 # Since we do not want to source control the raw data in git
 # To run this script, you will need to create a raw directory under the raw_data
