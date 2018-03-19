@@ -15,8 +15,6 @@ print("Random Seed:", random_sample_seed)
 print("File Location:", file_storage_location)
 print("Unzip Files:", unzip_files)
 
-# TODO Remove python tags from tags csv
-
 # Since we do not want to source control the raw data in git
 # To run this script, you will need to create a raw directory under the raw_data
 # and place a the zip file there
@@ -69,10 +67,17 @@ sampled_answers_df_r = sampled_answers_df.rename(columns={"Id_y": "Id", "OwnerUs
 sample_tags_df_stg = pd.merge(tags_df, sampled_questions_df, left_on='Id', right_on='Id', how='inner')
 
 # Same as answers, pulling out just the tags columns
-sample_tags_df = sample_tags_df_stg.iloc[:, 0:2]
+sample_tags_df_with_python_tag = sample_tags_df_stg.iloc[:, 0:2]
 
 # Save the down sampled files to the desired location
 sampled_path = raw_dir_path + '/' + file_storage_location + '/'
+
+# Removing the python tags
+# By using the ~, it does the reverse of the filter
+# I am using match since I ONLY want the tags removed that are simply python, and not
+# just having python within the tag
+# Got an error so having to use the astype(str) to cast everything as a string.
+sample_tags_df = sample_tags_df_with_python_tag[~sample_tags_df_with_python_tag['Tag'].astype(str).str.match('python')]
 
 if os.path.isdir(sampled_path) is False:
     os.mkdir(sampled_path)
