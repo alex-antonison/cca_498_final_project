@@ -16,4 +16,4 @@ data = data.fillna(0)
 data['Title'] = data['Title'].apply(remove_lines)
 data['Body'] = data['Body'].apply(remove_lines)
 
-data.to_csv('raw_data/full/Questions_New.csv', encoding='utf-8', index=False)
+data.to_csv('raw_data/full/Questions_New.csv', encoding='latin1', index=False)
