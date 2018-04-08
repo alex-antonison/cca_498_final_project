@@ -15,4 +15,4 @@ data = data.fillna(0)
 
 data['Body'] = data['Body'].apply(remove_lines)
 
-data.to_csv('raw_data/full/Answers_New.csv', encoding='utf-8', index=False)
+data.to_csv('raw_data/full/Answers_New.csv', encoding='latin1', index=False)
