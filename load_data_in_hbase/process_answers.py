@@ -9,7 +9,7 @@ table_name = "answers"
 
 def remove_html_tags(text):
     # try:
-    soup = BeautifulSoup(text, 'html5lib')
+    soup = BeautifulSoup(text, 'html.parser')
     return soup.getText()
     # except:
     #     print(text)

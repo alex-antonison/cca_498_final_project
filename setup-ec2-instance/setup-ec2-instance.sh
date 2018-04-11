@@ -38,6 +38,8 @@ sudo pip3 install bs4
 sudo pip3 install pyspark
 sudo pip3 install neo4j-driver
 
+sudo pip3 install lxml
+
 # Setup docker network
 sudo docker network create my-net
 
