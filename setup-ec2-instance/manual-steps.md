@@ -25,7 +25,7 @@ Custom TCP Rule | TCP      | 5601       | Anywhere
 ### Step 2 - Run setup-ec2-instance.sh script
 sudo ./setup-ec2-instance.sh script
 
-### Step 1 - Setup SSH Tunnel Based on instance
+### Step 3 - Setup SSH Tunnel Based on instance
 ssh -i "[aws-key-pair.pem]]" -N \
 -L 8080:[ip.amazonaws.com]:8080 \
 -L 7474:[ip.amazonaws.com]:7474 \
@@ -43,34 +43,34 @@ ssh -i "[aws-key-pair.pem]]" -N \
 ### Wait until you see Ambari is up and running on port 8080
 ### If you do it beforehand, it can cause issues with HDFS
 
-### Step 2 - Set the password in ambari
+### Step 4 - Set the password in ambari
 ### Default password is: hadoop
 ### Gets you into the sandbox-hdp docker
 ssh root@127.0.0.1 -p 2222
 ### Resets ambari-admin-password
 ambari-admin-password-reset
 
-### Step 3 - Kick off the start all
+### Step 5 - Kick off the start all
 sudo docker exec -t sandbox-hdp /root/start-sandbox-hdp.sh
 
-### Step 4 - Go to localhost:8080 in browser
+### Step 6 - Go to localhost:8080 in browser
 ### Turn HBase service on
 
-### Step 5 - Once all services are up and running, need to start hbase
+### Step 7 - Once all services are up and running, need to start hbase
 ssh root@127.0.0.1 -p 2222
 hbase thrift start &
 
-### Step 6 - Test that hbase is working by running the below code in python3 shell
+### Step 8 - Test that hbase is working by running the below code in python3 shell
 import happybase as hb
 con = hb.Connection()
 con.create_table('mytable2', {'cf': {}})
 
-### Step 7 - In Amabari (localhost:8080) - Import files into HDFS using the files
+### Step 9 - In Amabari (localhost:8080) - Import files into HDFS using the files
 ### view.  You can access this by select the button to the left of hte Admin at the top right
 ### Put the files in the following directory
 ### Need to run preprocess scripts to stage Answers and Questions to get Answers_New.csv and Questions_New.csv
 
-### Step 8 - Before running, need to source bash_profile
+### Step 10 - Before running, need to source bash_profile
 
 
 #######################################################################################

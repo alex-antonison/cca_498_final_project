@@ -17,3 +17,4 @@ Once cloned, you need to execute the setup-ec2-instance.sh script.  In this scri
     - pyspark
     - neo4j-driver
 - Install Java
+- Exporting the pyspark path which is necessary to run spark scripts
