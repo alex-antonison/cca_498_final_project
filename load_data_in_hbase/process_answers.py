@@ -8,23 +8,23 @@ table_name = "answers"
 
 
 def remove_html_tags(text):
-    try:
-        soup = BeautifulSoup(text, 'html5lib')
-        return soup.getText()
-    except:
-        print(text)
+    # try:
+    soup = BeautifulSoup(text, 'html5lib')
+    return soup.getText()
+    # except:
+    #     print(text)
 
 
 def remove_bad_record(line):
     if len(line) == 6:
-        try:
-            val = int(line[0])
-            return True
-        except:
-            return False
-            print(line)
+        # try:
+        val = int(line[0])
+        return True
+        # except:
+        #     return False
+        #     print(line)
     else:
-        print(line)
+        print("Removed bad record")
         return False
 
 
