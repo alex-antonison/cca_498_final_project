@@ -14,8 +14,8 @@ def remove_html_tags(text):
         return soup.getText()
     except:
         print("bs4 issue")
-        print(text)
-        sys.exit()
+        # print(text)
+        # sys.exit()
 
 
 def remove_bad_record(line):
@@ -26,8 +26,8 @@ def remove_bad_record(line):
         except:
             return False
             print("Bad record")
-            print(line)
-            sys.exit()
+            # print(line)
+            # sys.exit()
     else:
         print("Removed bad record")
         return False
@@ -48,8 +48,8 @@ def bulk_insert_hbase(batch):
             table.put(key, value)
         except:
             print("Failed to insert into HBase")
-            print(t)
-            sys.ext()
+            # print(t)
+            # sys.ext()
 
 
 class InsertAnswerData(object):
