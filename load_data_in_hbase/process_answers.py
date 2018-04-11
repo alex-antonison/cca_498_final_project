@@ -8,11 +8,7 @@ table_name = "answers"
 
 
 def remove_html_tags(text):
-    # try:
-    soup = BeautifulSoup(text, 'html5lib')
-    return soup.getText()
-    # except:
-    #     print(text)
+    return re.sub('(\r\n)+|\r+|\n+', " ", re.sub('<[^<]+?>', '', text))
 
 
 def remove_bad_record(line):
