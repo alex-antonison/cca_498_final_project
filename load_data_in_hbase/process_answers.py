@@ -1,4 +1,4 @@
-from pyspark.sql import SparkSession
+from pyspark import SparkContext, SparkConf
 from bs4 import BeautifulSoup
 import happybase
 from neo4j.v1 import GraphDatabase
@@ -80,10 +80,8 @@ def batch_insert_graph(batch):
     adapator.close()
 
 
-spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.debug.maxToStringFields", 999999) \
-    .config("spark.executor.memory", "10gb") \
-    .getOrCreate()
+conf = SparkConf().setAppName('MyFirstStandaloneApp')
+spark = SparkContext(conf=conf)
 
 df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs:////local-dir/cca_498_final_project/raw_data/full/Answers_New.csv')
 
