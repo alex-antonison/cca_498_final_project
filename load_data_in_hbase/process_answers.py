@@ -29,7 +29,7 @@ def remove_bad_record(line):
 
 
 def bulk_insert_hbase(batch):
-    table = happybase.Connection().table(table_name)
+    table = happybase.Connection(server).table(table_name)
     for t in batch:
         try:
             key = t[0]
@@ -94,6 +94,6 @@ rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5]
 
 # rdd.foreachPartition(bulk_insert_hbase)
 
-# rdd.foreachPartition(batch_insert_graph)
+rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
