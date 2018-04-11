@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from bs4 import BeautifulSoup
 import happybase
 from neo4j.v1 import GraphDatabase
+import re
 
 server = "localhost"
 table_name = "answers"
