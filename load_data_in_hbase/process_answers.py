@@ -4,7 +4,7 @@ import happybase
 from neo4j.v1 import GraphDatabase
 
 server = "localhost"
-table_name = "a"
+table_name = "answers"
 
 
 def remove_html_tags(text):

@@ -63,7 +63,11 @@ hbase thrift start &
 ### Step 8 - Test that hbase is working by running the below code in python3 shell
 import happybase as hb
 con = hb.Connection()
-con.create_table('mytable2', {'cf': {}})
+cf = {
+    'raw': dict(),
+    'mod': dict()
+}
+con.create_table('answers', cf)
 
 ### Step 9 - In Amabari (localhost:8080) - Import files into HDFS using the files
 ### view.  You can access this by select the button to the left of hte Admin at the top right
