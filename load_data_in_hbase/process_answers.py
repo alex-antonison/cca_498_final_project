@@ -29,7 +29,7 @@ def remove_bad_record(line):
 
 
 def bulk_insert_hbase(batch):
-    table = happybase.Connection(server).table(table_name)
+    table = happybase.Connection().table(table_name)
     for t in batch:
         try:
             key = t[0]
