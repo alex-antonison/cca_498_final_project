@@ -5,7 +5,6 @@ sudo docker exec -t sandbox-hdp /root/start-sandbox-hdp.sh
 
 I have had some issues with Kibana restarting gracefully, in the event that hapepns, execute the following commands.
 
-
 ### Step 1 - Setup AWS instance
 Ec2 instance notes
 OS: Ubuntu - ami-43a15f3e (Default Ubuntu)
@@ -22,6 +21,9 @@ HTTPS           | TCP      | 443        | Anywhere
 SSH             | TCP      | 22         | Anywhere
 Custom TCP Rule | TCP      | 7474       | Anywhere
 Custom TCP Rule | TCP      | 5601       | Anywhere
+
+### Step 2 - Run setup-ec2-instance.sh script
+sudo ./setup-ec2-instance.sh script
 
 ### Step 1 - Setup SSH Tunnel Based on instance
 ssh -i "[aws-key-pair.pem]]" -N \
