@@ -85,15 +85,15 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "10gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/tmp/data/Answers_New.csv')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
 
-rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
+# rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-# Remove HTML tags
-rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
+# # Remove HTML tags
+# rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
-rdd.foreachPartition(bulk_insert_hbase)
+# rdd.foreachPartition(bulk_insert_hbase)
 
-rdd.foreachPartition(batch_insert_graph)
+# rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
