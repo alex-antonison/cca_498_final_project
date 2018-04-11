@@ -85,7 +85,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "10gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs:///local-dir/cca_498_final_project/raw_data/full/Answers_New.csv')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/local-dir/cca_498_final_project/raw_data/full/Answers_New.csv')
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
