@@ -10,7 +10,7 @@ def remove_lines(text):
 
 
 # Before Executing this please open and save the file in Sublime Text to enforce UTF-8 encoding
-data = pd.read_csv('raw_data/full/Answers.csv')
+data = pd.read_csv('raw_data/full/Answers.csv', encoding='latin1')
 data = data.fillna(0)
 
 data['Body'] = data['Body'].apply(remove_lines)
