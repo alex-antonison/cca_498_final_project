@@ -4,7 +4,7 @@ import happybase
 from neo4j.v1 import GraphDatabase
 
 server = "localhost"
-table_name = "a"
+table_name = "answers"
 
 
 def remove_html_tags(text):
@@ -12,6 +12,7 @@ def remove_html_tags(text):
         soup = BeautifulSoup(text, 'html5lib')
         return soup.getText()
     except:
+        print("bs4 issue")
         print(text)
 
 
@@ -22,9 +23,11 @@ def remove_bad_record(line):
             return True
         except:
             return False
+            print("Bad record")
             print(line)
+
     else:
-        print(line)
+        print("Removed bad record")
         return False
 
 
@@ -34,15 +37,17 @@ def bulk_insert_hbase(batch):
         try:
             key = t[0]
             value = {"raw:OwnerUserId": t[1],
-                     "raw:CreationDate": t[2],
-                     "raw:ParentId": t[3],
-                     "raw:Score": t[4],
-                     "raw:Body": t[5],
-                     "mod:Body": t[6]
-                     }
+                        "raw:CreationDate": t[2],
+                        "raw:ParentId": t[3],
+                        "raw:Score": t[4],
+                        "raw:Body": t[5],
+                        "mod:Body": t[6]
+                        }
             table.put(key, value)
         except:
+            print("Failed to insert into HBase")
             print(t)
+
 
 
 class InsertAnswerData(object):
@@ -85,14 +90,14 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "10gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/full/Answers_New.csv')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-# Remove HTML tags
+# # Remove HTML tags
 rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
-rdd.foreachPartition(bulk_insert_hbase)
+# rdd.foreachPartition(bulk_insert_hbase)
 
 rdd.foreachPartition(batch_insert_graph)
 
