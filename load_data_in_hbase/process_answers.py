@@ -9,24 +9,24 @@ table_name = "answers"
 
 
 def remove_html_tags(text):
-    try:
-        soup = BeautifulSoup(text, 'html5lib')
-        return soup.getText()
-    except:
+    # try:
+    soup = BeautifulSoup(text, 'html5lib')
+    return soup.getText()
+    # except:
         # print("bs4 issue")
-        print(text)
+        # print(text)
         # sys.exit()
 
 
 def remove_bad_record(line):
     if len(line) == 6:
-        try:
-            val = int(line[0])
-            return True
-        except:
-            return False
-            # print("Bad record")
-            print(line)
+        # try:
+        val = int(line[0])
+        return True
+        # except:
+            # return False
+            # # print("Bad record")
+            # print(line)
             # sys.exit()
     else:
         print("Removed bad record")
@@ -36,19 +36,19 @@ def remove_bad_record(line):
 def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name)
     for t in batch:
-        try:
-            key = t[0]
-            value = {"raw:OwnerUserId": t[1],
-                        "raw:CreationDate": t[2],
-                        "raw:ParentId": t[3],
-                        "raw:Score": t[4],
-                        "raw:Body": t[5],
-                        "mod:Body": t[6]
-                        }
-            table.put(key, value)
-        except:
+        # try:
+        key = t[0]
+        value = {"raw:OwnerUserId": t[1],
+                    "raw:CreationDate": t[2],
+                    "raw:ParentId": t[3],
+                    "raw:Score": t[4],
+                    "raw:Body": t[5],
+                    "mod:Body": t[6]
+                    }
+        table.put(key, value)
+        # except:
             # print("Failed to insert into HBase")
-            print(t)
+            # print(t)
             # sys.ext()
 
 
