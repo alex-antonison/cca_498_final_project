@@ -23,7 +23,6 @@
 
 sudo apt-get update && sudo apt-get upgrade -y
 mkdir local-dir
-git clone https://github.com/adeveloperdiary/cca_498_final_project.git
 
 # Installing and starting Docker
 sudo apt install docker.io -y
@@ -83,4 +82,4 @@ source ~/.bash_profile
 
 # Setting up hortonworks vm
 # chmod 770 setup-cca-project/start-sandbox-hdp-standalone_2-6-4.sh
-sudo ~/./setup-cca-project/start-sandbox-hdp-standalone_2-6-4.sh
+sudo ~/./cca_498_final_project/setup-ec2-instance/start-sandbox-hdp-standalone_2-6-4.sh

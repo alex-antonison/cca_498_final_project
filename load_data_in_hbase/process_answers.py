@@ -18,19 +18,19 @@ def remove_html_tags(text):
         # sys.exit()
 
 
-def remove_bad_record(line):
-    if len(line) == 6:
-        # try:
-        val = int(line[0])
-        return True
-        # except:
-            # return False
-            # # print("Bad record")
-            # print(line)
-            # sys.exit()
-    else:
-        print("Removed bad record")
-        return False
+# def remove_bad_record(line):
+#     if len(line) == 6:
+#         # try:
+#         val = int(line[0])
+#         return True
+#         # except:
+#             # return False
+#             # # print("Bad record")
+#             # print(line)
+#             # sys.exit()
+#     else:
+#         print("Removed bad record")
+#         return False
 
 
 def bulk_insert_hbase(batch):
@@ -94,7 +94,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
 
-rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
+# rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
 # # Remove HTML tags
 rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
