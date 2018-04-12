@@ -97,7 +97,7 @@ df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFO
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
 # # Remove HTML tags
-rdd = df.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
+rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
 rdd.foreachPartition(bulk_insert_hbase)
 
