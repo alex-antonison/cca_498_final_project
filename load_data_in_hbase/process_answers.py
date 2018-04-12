@@ -52,7 +52,7 @@ def bulk_insert_hbase(batch):
 
 class InsertAnswerData(object):
     def __init__(self, uri, user, password):
-        self._driver = GraphDatabase.driver(uri, auth=("neo4j", "cca"))
+        self._driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def close(self):
         self._driver.close()

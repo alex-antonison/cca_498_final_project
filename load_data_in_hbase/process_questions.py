@@ -4,7 +4,7 @@ import happybase
 from neo4j.v1 import GraphDatabase
 
 server = "localhost"
-table_name = "q"
+table_name = "questions"
 
 
 def remove_html_tags(text):
@@ -82,7 +82,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "10gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/full/Questions_New.csv')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
