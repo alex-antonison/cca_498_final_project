@@ -21,6 +21,7 @@ HTTPS           | TCP      | 443        | Anywhere
 SSH             | TCP      | 22         | Anywhere
 Custom TCP Rule | TCP      | 7474       | Anywhere
 Custom TCP Rule | TCP      | 5601       | Anywhere
+Custom TCP Rule | TCP      | 7687       | Anywhere
 
 ### Step 2 - Run setup-ec2-instance.sh script
 ssh -i "aws-boinc-key.pem" ubuntu@ec2-34-203-224-198.compute-1.amazonaws.com
@@ -33,6 +34,7 @@ ssh -i "[aws-key-pair.pem]]" -N \
 -L 8080:[ip.amazonaws.com]:8080 \
 -L 7474:[ip.amazonaws.com]:7474 \
 -L 5601:[ip.amazonaws.com]:5601 \
+-L 7687:[ip.amazonaws.com]:7687 \
  ubuntu@[ip.amazonaws.com]
 
  Example
@@ -41,6 +43,7 @@ ssh -i "[aws-key-pair.pem]]" -N \
 -L 8080:ec2-34-203-224-198.compute-1.amazonaws.com:8080 \
 -L 7474:ec2-34-203-224-198.compute-1.amazonaws.com:7474 \
 -L 5601:ec2-34-203-224-198.compute-1.amazonaws.com:5601 \
+-L 7687:ec2-34-203-224-198.compute-1.amazonaws.com:7687 \
  ubuntu@ec2-34-203-224-198.compute-1.amazonaws.com
 
 ### Wait until you see Ambari is up and running on port 8080
