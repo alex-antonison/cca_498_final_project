@@ -49,7 +49,7 @@ request_body = {
     }
 }
 
-#CHUNKSIZE = 10
+CHUNKSIZE = 10
 
 def index_data(data_path, chunksize, index_name, doc_type):
     es = Elasticsearch()
