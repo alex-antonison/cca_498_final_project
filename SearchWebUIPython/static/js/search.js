@@ -6,7 +6,7 @@ $(document).ready(function () {
                 "                        <div class=\"card border-secondary mb-3\" style=\"border:1px solid #dfdfdf !important;border-radius:0;\">\n" +
                 "                            <div class=\"card-header\" style=\"border-bottom-style: dashed;background-color: rgba(0, 0, 0, 0.03)\">\n" +
                 "                                <div style=\"margin-right:20px;background-color: #0068b9;border-radius: 5px;padding:7px;\" class=\"float-left\">\n" +
-                "                                    <div class=\"text-center\" style=\"font-size: 30px;font-weight: 600;color: #FFFFFF;\">10</div>\n" +
+                "                                    <div class=\"text-center\" style=\"font-size: 30px;font-weight: 600;color: #FFFFFF;\">"+val.count+"</div>\n" +
                 "                                    <div style=\"color:#FFFFFF\">Answers</div>\n" +
                 "                                </div>\n" +
                 "                                <div style=\"color:#0078d5;font-weight: bold;margin-left:10px;font-size: 18px; line-height:100%;align-items: center;padding-bottom: 5px\">\n" +
