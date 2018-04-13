@@ -37,6 +37,7 @@ sudo pip3 install bs4
 sudo pip3 install pyspark
 sudo pip3 install neo4j-driver
 sudo pip3 install html5lib
+sudo pip3 install elasticsearch
 
 # Setup docker network
 sudo docker network create my-net
