@@ -13,6 +13,13 @@ ambari-admin-password-reset
 
 ### Once you have password change, you need to setup an ssh tunnel and connect to ambari
 
+ssh -i "aws-boinc-key.pem" -N \
+-L 8080:ec2-204-236-201-133.compute-1.amazonaws.com:8080 \
+-L 7474:ec2-204-236-201-133.compute-1.amazonaws.com:7474 \
+-L 5601:ec2-204-236-201-133.compute-1.amazonaws.com:5601 \
+-L 7687:ec2-204-236-201-133.compute-1.amazonaws.com:7687 \
+ ubuntu@ec2-204-236-201-133.compute-1.amazonaws.com
+
 ### How to setup a tunnel
 ssh -i "aws-boinc-key.pem" -N \
 -L 8080:ec2-34-203-224-198.compute-1.amazonaws.com:8080 \
