@@ -3,7 +3,7 @@ import happybase
 from neo4j.v1 import GraphDatabase
 
 server = "localhost"
-table_name = "q"
+table_name = "questions"
 
 
 def bulk_insert_hbase(batch):
@@ -81,7 +81,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "10gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/cca/project/data/full/Tags.csv')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Tags.csv')
 
 rdd = df.rdd.groupByKey().mapValues(list)
 
