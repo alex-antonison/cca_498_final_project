@@ -2,7 +2,7 @@
 import csv
 from elasticsearch import Elasticsearch
 
-data_path = 'raw_data/small/Questions_10.csv'
+data_path = 'Questions.csv'
 request_body = {
     'settings': {
       'number_of_shards': 5,
