@@ -12,6 +12,7 @@ def remove_html_tags(text):
         print(text)
 
 data_path = 'Questions_New.csv'
+# data_path = 'raw_data/small/Questions_10.csv'
 request_body = {
     'settings': {
       'number_of_shards': 5,
@@ -33,11 +34,16 @@ request_body = {
       "mappings": {
         "tag": {
           "properties": {
-            "TitleBody": {
-              "type": "string",
-              "analyzer": "my_custom_analyzer"
-            },
             "Id": {
+              "type": "string"
+            },
+            "Title": {
+              "type": "date"
+            },
+            "Body": {
+              "type": "long"
+            },
+            "TitleBody": {
               "type": "long"
             }
           }
@@ -45,7 +51,6 @@ request_body = {
       }
     }
 }
-
 CHUNKSIZE = 10
 
 def index_data(data_path, chunksize, index_name, doc_type):
@@ -61,10 +66,10 @@ def index_data(data_path, chunksize, index_name, doc_type):
         for row in reader:
             try:
                 row['TitleBody'] = row['Title'] + remove_html_tags(row['Body'])
-                black_list = {"OwnerUserId", "CreationDate", "Score", "Title", "Body"}
+                black_list = {"OwnerUserId", "CreationDate", "Score"}
                 rename = {}
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
-                es.index(index = index_name,  doc_type = doc_type, body = new_dict, ignore = 400)
+                es.index(index=index_name,  doc_type=doc_type, body=new_dict, ignore=400)
                     # es.index(, , list_records,con)
                 count = count + 1
                 print("Success: ", count)
