@@ -48,8 +48,6 @@ request_body = {
 
 CHUNKSIZE = 10
 
-count = 0
-
 def index_data(data_path, chunksize, index_name, doc_type):
     es = Elasticsearch()
     try :
@@ -59,6 +57,7 @@ def index_data(data_path, chunksize, index_name, doc_type):
     es.indices.create(index=index_name, body=request_body, ignore=400)
     with open(data_path) as csvfile:
         reader = csv.DictReader(csvfile)
+        count = 0
         for row in reader:
             try:
                 row['TitleBody'] = row['Title'] + remove_html_tags(row['Body'])
