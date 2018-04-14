@@ -1,8 +1,17 @@
 # 1. Which libraries do I need ?
 import csv
 from elasticsearch import Elasticsearch
+from bs4 import BeautifulSoup
 
-data_path = 'Questions.csv'
+def remove_html_tags(text):
+    try:
+        soup = BeautifulSoup(text, 'html5lib')
+        return soup.getText()
+    except:
+        print("bs4 issue")
+        print(text)
+
+data_path = 'raw_data/small/Questions_10.csv'
 request_body = {
     'settings': {
       'number_of_shards': 5,
@@ -24,23 +33,11 @@ request_body = {
       "mappings": {
         "tag": {
           "properties": {
-            "Body": {
+            "TitleBody": {
               "type": "string",
               "analyzer": "my_custom_analyzer"
             },
-            "CreationDate": {
-              "type": "date"
-            },
             "Id": {
-              "type": "long"
-            },
-            "OwnerUserId": {
-              "type": "long"
-            },
-            "ParentId": {
-              "type": "long"
-            },
-            "Score": {
               "type": "long"
             }
           }
@@ -62,8 +59,13 @@ def index_data(data_path, chunksize, index_name, doc_type):
         reader = csv.DictReader(csvfile)
         for row in reader:
             try:
+                row['TitleBody'] = row['Title'] + remove_html_tags(row['Body'])
+                black_list = {"OwnerUserId", "CreationDate", "Score", "Title", "Body"}
+                rename = {}
+                new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
+                print(new_dict)
                 es.index(index = index_name,  doc_type = doc_type, body = row, ignore = 400)
-                        # es.index(, , list_records,con)
+                    # es.index(, , list_records,con)
             except Exception as ex :
                 print("error!, skiping chunk! {}".format(ex))
                 pass
