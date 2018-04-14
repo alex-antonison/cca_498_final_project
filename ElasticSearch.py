@@ -66,9 +66,11 @@ def index_data(data_path, chunksize, index_name, doc_type):
         for row in reader:
             try:
                 row['TitleBody'] = row['Title'] + remove_html_tags(row['Body'])
+                row['Body'] = remove_html_tags(row['Body'])
                 black_list = {"OwnerUserId", "CreationDate", "Score"}
                 rename = {}
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
+                print(new_dict)
                 es.index(index=index_name,  doc_type=doc_type, body=new_dict, ignore=400)
                     # es.index(, , list_records,con)
                 count = count + 1
