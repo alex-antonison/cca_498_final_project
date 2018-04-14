@@ -55,7 +55,7 @@ def index_data(data_path, chunksize, index_name, doc_type):
     except :
         pass
     es.indices.create(index=index_name, body=request_body, ignore=400)
-    with open(data_path) as csvfile:
+    with open(data_path, encoding = "ISO-8859-1") as csvfile:
         reader = csv.DictReader(csvfile)
         count = 0
         for row in reader:
@@ -64,8 +64,7 @@ def index_data(data_path, chunksize, index_name, doc_type):
                 black_list = {"OwnerUserId", "CreationDate", "Score", "Title", "Body"}
                 rename = {}
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
-                # print(new_dict)
-                es.index(index = index_name,  doc_type = doc_type, body = row, ignore = 400)
+                es.index(index = index_name,  doc_type = doc_type, body = new_dict, ignore = 400)
                     # es.index(, , list_records,con)
                 count = count + 1
                 print("Success: ", count)
