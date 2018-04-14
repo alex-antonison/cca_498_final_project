@@ -48,6 +48,8 @@ request_body = {
 
 CHUNKSIZE = 10
 
+count = 0
+
 def index_data(data_path, chunksize, index_name, doc_type):
     es = Elasticsearch()
     try :
@@ -63,9 +65,11 @@ def index_data(data_path, chunksize, index_name, doc_type):
                 black_list = {"OwnerUserId", "CreationDate", "Score", "Title", "Body"}
                 rename = {}
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
-                print(new_dict)
+                # print(new_dict)
                 es.index(index = index_name,  doc_type = doc_type, body = row, ignore = 400)
                     # es.index(, , list_records,con)
+                count = count + 1
+                print("Success: ", count)
             except Exception as ex :
                 print("error!, skiping chunk! {}".format(ex))
                 pass
