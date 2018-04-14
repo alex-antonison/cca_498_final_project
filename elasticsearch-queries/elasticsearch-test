@@ -1,0 +1,27 @@
+GET /my_data/_search?pretty
+{
+  "query": {
+        
+        "match": {
+          "Body" : "string"
+        } 
+  },
+  "_source": ["Id", "Body"]
+}
+
+
+
+GET /my_data/_search?pretty
+{
+  "query": {
+    "query_string":{
+      "query" : "importing csv into dict"
+    }
+  },
+  "_source": ["Id", "Body"],
+  "highlight" : {
+        "fields" : {
+            "content" : {}
+        }
+    }
+}
