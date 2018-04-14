@@ -74,7 +74,8 @@ def index_data(data_path, chunksize, index_name, doc_type):
                 es.index(index=index_name,  doc_type=doc_type, body=new_dict, ignore=400)
                     # es.index(, , list_records,con)
                 count = count + 1
-                print("Success: ", count)
+                if count%10000 == 0:
+                    print("Success: ", count)
             except Exception as ex :
                 print("error!, skiping chunk! {}".format(ex))
                 pass
