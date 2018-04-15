@@ -15,6 +15,7 @@
 # SSH             | TCP      | 22         | Anywhere
 # Custom TCP Rule | TCP      | 7474       | Anywhere
 # Custom TCP Rule | TCP      | 5601       | Anywhere
+# Custom TCP Rule | TCP      | 9090       | Anywhere
 
 # Although you can start off without using a keypair, it is highly recommended to create and use one.
 
