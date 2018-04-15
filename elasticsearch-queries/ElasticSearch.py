@@ -21,14 +21,27 @@ request_body = {
     'mappings': {
       "settings": {
         "analysis": {
+            "char_filter": {
+                "my_html": {
+                    "type": "html_strip"
+                }
+            },
           "analyzer": {
-            "my_custom_analyzer": {
+            "my_html": {
               "tokenizer": "standard",
               "char_filter": [
-                "html_strip"
-              ]
+                "my_html"
+              ],
+                "type": "custom"
             }
           }
+        }
+      },
+      "properties" : {
+        "preview_html": {
+             "type": "string",
+             "analyzer": "my_html",
+             "search_analyzer": "standard"
         }
       },
       "mappings": {
@@ -66,7 +79,7 @@ def index_data(data_path, chunksize, index_name, doc_type):
         for row in reader:
             try:
                 row['TitleBody'] = row['Title'] + remove_html_tags(row['Body'])
-                row['Body'] = remove_html_tags(row['Body'])
+                row['BodyClean'] = remove_html_tags(row['Body'])
                 black_list = {"OwnerUserId", "CreationDate", "Score"}
                 rename = {}
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
