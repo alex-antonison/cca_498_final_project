@@ -37,7 +37,7 @@ def search(es, term):
             ],
             "highlight": {
                 "fields": {
-                    "_all" : {}
+                    "*": {}
                 }
             }
         })
@@ -46,9 +46,10 @@ def search(es, term):
 
 
 es = Elasticsearch()
-res = search(es, "happybase connection error")
+res = search(es, "Connection Reset")
 print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
-    print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
+    # print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
+    print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
