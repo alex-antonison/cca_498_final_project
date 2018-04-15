@@ -15,7 +15,7 @@ def search(es, term):
                             "match": {
                                 "Title": {
                                     "query": term,
-                                    "boost": 2
+                                    "boost": 10
                                 }
                             }
                         },
@@ -31,11 +31,13 @@ def search(es, term):
                 }
             },
             "_source": [
-                "Id"
+                "Id",
+                "Title",
+                "Body"
             ],
             "highlight": {
                 "fields": {
-                    "content": {}
+                    "_all" : {}
                 }
             }
         })
@@ -44,9 +46,9 @@ def search(es, term):
 
 
 es = Elasticsearch()
-res = search(es, "importing csv into dict")
+res = search(es, "happybase connection error")
 print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
-    print("%(Id)s" % hit["_source"])
+    print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
