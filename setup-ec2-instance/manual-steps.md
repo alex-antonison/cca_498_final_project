@@ -50,6 +50,19 @@ nohup ssh -i "aws-boinc-key.pem" -N \
 -L 9090:ec2-34-229-57-105.compute-1.amazonaws.com:9090 \
  ubuntu@ec2-34-229-57-105.compute-1.amazonaws.com &
 
+ nohup ssh -i ~/.ssh/id_rsa -N \
+-L 8080:13.92.158.196:8080 \
+-L 7474:13.92.158.196:7474 \
+-L 5601:13.92.158.196:5601 \
+-L 7687:13.92.158.196:7687 \
+-L 9200:13.92.158.196:9200 \
+-L 9090:13.92.158.196:9090 \
+ stani300@13.92.158.196 &
+
+ssh -i ~/.ssh/id_rsa -N \
+-L 8080:13.92.158.196:8080 \
+ stani300@13.92.158.196
+
 ### Wait until you see Ambari is up and running on port 8080
 ### If you do it beforehand, it can cause issues with HDFS
 
