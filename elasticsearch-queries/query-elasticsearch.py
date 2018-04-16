@@ -21,7 +21,7 @@ def search(es, term):
                         },
                         {
                             "match": {
-                                "Body": {
+                                "BodyClean": {
                                     "query": term,
                                     "boost": 1
                                 }
@@ -52,4 +52,4 @@ print(res)
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
     # print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
-    print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+    print("%(Id)s" % hit["_source"], "%(Title)s | %(BodyClean)s" % hit["highlight"])
