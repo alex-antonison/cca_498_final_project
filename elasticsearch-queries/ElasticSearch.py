@@ -67,6 +67,7 @@ request_body = {
 }
 CHUNKSIZE = 10
 
+
 def index_data(data_path, chunksize, index_name, doc_type):
     es = Elasticsearch()
     try :
@@ -74,7 +75,7 @@ def index_data(data_path, chunksize, index_name, doc_type):
     except :
         pass
     es.indices.create(index=index_name, body=request_body, ignore=400)
-    with open(data_path, encoding = "ISO-8859-1") as csvfile:
+    with open(data_path, encoding="ISO-8859-1") as csvfile:
         reader = csv.DictReader(csvfile)
         count = 0
         for row in reader:
@@ -87,7 +88,7 @@ def index_data(data_path, chunksize, index_name, doc_type):
                 # print(new_dict)
                 es.index(index=index_name,  doc_type=doc_type, body=new_dict, ignore=400)
                 count = count + 1
-                if count%10000 == 0:
+                if count % 10000 == 0:
                     print("Success: ", count)
             except Exception as ex :
                 print("error!, skiping chunk! {}".format(ex))
