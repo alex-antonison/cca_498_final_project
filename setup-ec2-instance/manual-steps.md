@@ -41,23 +41,14 @@ ssh -i "[aws-key-pair.pem]]" -N \
 
  Example
 
-nohup ssh -i "aws-boinc-key.pem" -N \
--L 8080:ec2-34-229-57-105.compute-1.amazonaws.com:8080 \
--L 7474:ec2-34-229-57-105.compute-1.amazonaws.com:7474 \
--L 5601:ec2-34-229-57-105.compute-1.amazonaws.com:5601 \
--L 7687:ec2-34-229-57-105.compute-1.amazonaws.com:7687 \
--L 9200:ec2-34-229-57-105.compute-1.amazonaws.com:9200 \
--L 9090:ec2-34-229-57-105.compute-1.amazonaws.com:9090 \
- ubuntu@ec2-34-229-57-105.compute-1.amazonaws.com &
-
- nohup ssh -i ~/.ssh/id_rsa -N \
--L 8080:52.179.81.244:8080 \
--L 7474:52.179.81.244:7474 \
--L 5601:52.179.81.244:5601 \
--L 7687:52.179.81.244:7687 \
--L 9200:52.179.81.244:9200 \
--L 9090:52.179.81.244:9090 \
- stani300@52.179.81.244 &
+ssh -i "aws-boinc-key.pem" -N \
+-L 8080:ec2-34-229-80-65.compute-1.amazonaws.com:8080 \
+-L 7474:ec2-34-229-80-65.compute-1.amazonaws.com:7474 \
+-L 5601:ec2-34-229-80-65.compute-1.amazonaws.com:5601 \
+-L 7687:ec2-34-229-80-65.compute-1.amazonaws.com:7687 \
+-L 9200:ec2-34-229-80-65.compute-1.amazonaws.com:9200 \
+-L 9090:ec2-34-229-80-65.compute-1.amazonaws.com:9090 \
+ ubuntu@ec2-34-229-80-65.compute-1.amazonaws.com
 
 ssh -i ~/.ssh/id_rsa -N \
 -L 8080:52.179.81.244:8080 \
