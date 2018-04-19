@@ -11,7 +11,7 @@ def remove_html_tags(text):
         print("bs4 issue")
         print(text)
 
-data_path = 'Questions_New.csv'
+data_path = '../Questions_New.csv'
 # data_path = '../raw_data/small/Questions_10.csv'
 request_body = {
     'settings': {
