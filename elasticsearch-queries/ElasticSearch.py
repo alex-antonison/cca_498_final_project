@@ -54,11 +54,7 @@ request_body = {
               "type": "date"
             },
             "Body": {
-              "type": "long"
-            },
-            "BodyClean": {"type": "long"},
-            "TitleBody": {
-              "type": "long"
+              "type": "string"
             }
           }
         }

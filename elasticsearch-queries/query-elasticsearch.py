@@ -46,7 +46,7 @@ def search(es, term):
 
 
 es = Elasticsearch()
-res = search(es, "Connection Reset")
+res = search(es, "Mixing Matplotlib")
 print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
