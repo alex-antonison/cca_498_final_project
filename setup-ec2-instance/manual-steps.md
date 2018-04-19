@@ -50,10 +50,6 @@ ssh -i "aws-boinc-key.pem" -N \
 -L 9090:ec2-34-229-80-65.compute-1.amazonaws.com:9090 \
  ubuntu@ec2-34-229-80-65.compute-1.amazonaws.com
 
-ssh -i ~/.ssh/id_rsa -N \
--L 8080:52.179.81.244:8080 \
- stani300@52.179.81.244
-
 ### Wait until you see Ambari is up and running on port 8080
 ### If you do it beforehand, it can cause issues with HDFS
 
