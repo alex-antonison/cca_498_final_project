@@ -8,6 +8,7 @@ def search(es, term):
         index="my_data",
         doc_type="tag",
         body={
+            "from" : 0, "size" : 5,
             "query": {
                 "bool": {
                     "should": [
@@ -21,7 +22,7 @@ def search(es, term):
                         },
                         {
                             "match": {
-                                "BodyClean": {
+                                "Body": {
                                     "query": term,
                                     "boost": 1
                                 }
@@ -37,7 +38,8 @@ def search(es, term):
             ],
             "highlight": {
                 "fields": {
-                    "*": {}
+                    "Title": {},
+                    "Body": {}
                 }
             }
         })
@@ -51,5 +53,5 @@ print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
-    # print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
-    print("%(Id)s" % hit["_source"], "%(Title)s | %(BodyClean)s" % hit["highlight"])
+    print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
+    print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])

@@ -1,7 +1,9 @@
 from pyspark.sql import SparkSession
+from pyspark.sql import SQLContext
 from bs4 import BeautifulSoup
 import happybase
 from neo4j.v1 import GraphDatabase
+import pandas as pd
 
 server = "localhost"
 table_name = "questions"
@@ -81,7 +83,14 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.debug.maxToStringFields", 999999) \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+
+
+# df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+questions_df = pd.read_csv("../Questions.csv", encoding='latin1')
+
+sqlContext = SQLContext(spark)
+
+df = sqlContext.createDataFrame(questions_df)
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
