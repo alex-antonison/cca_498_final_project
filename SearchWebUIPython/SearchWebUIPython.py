@@ -27,7 +27,7 @@ class GetAnswerCount(object):
 
 
 def batch_insert_graph(id):
-    adapator = GetAnswerCount('bolt://192.168.50.57:7687', 'neo4j', 'cca')
+    adapator = GetAnswerCount('bolt://localhost:7687', 'neo4j', 'cca')
     count = adapator.get_answers_count(id)
 
     adapator.close()
@@ -36,9 +36,9 @@ def batch_insert_graph(id):
 
 @app.route('/get_random_questions_from_hbase', methods=['GET'])
 def get_random_questions_from_hbase():
-    connnection = happybase.Connection("192.168.50.57")
+    connnection = happybase.Connection("localhost")
     table = connnection.table("questions")
-    rows = table.rows([b'35486227', b'14853757', b'19170111', b'23059398', b'26580944', b'29748897', b'32765572', b'38056227', b'4590516', b'9998815'])
+    rows = table.rows([b'23721800', b'14853757', b'19170111', b'23059398', b'26580944', b'29748897', b'32765572', b'38056227', b'4590516', b'9998815'])
 
     connnection.close()
 

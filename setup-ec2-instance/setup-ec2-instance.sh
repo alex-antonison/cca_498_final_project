@@ -15,6 +15,7 @@
 # SSH             | TCP      | 22         | Anywhere
 # Custom TCP Rule | TCP      | 7474       | Anywhere
 # Custom TCP Rule | TCP      | 5601       | Anywhere
+# Custom TCP Rule | TCP      | 9090       | Anywhere
 
 # Although you can start off without using a keypair, it is highly recommended to create and use one.
 
@@ -44,7 +45,7 @@ sudo docker network create my-net
 
 # Setup neo4j
 ## Had to go back to 3.0 to get a working version
-sudo docker run -d --restart unless-stopped \
+sudo docker run -d --privileged --restart unless-stopped \
     --network my-net \
     --publish=7474:7474 --publish=7687:7687 \
     --volume=$HOME/neo4j/data:/data \
