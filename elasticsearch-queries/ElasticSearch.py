@@ -42,11 +42,13 @@ request_body = {
             },
             "Title": {
               "type": "string",
-              "analyzer": "my_custom_analyzer"
+              "analyzer": "my_html",
+              "search_analyzer": "standard"
             },
             "Body": {
               "type": "string",
-              "analyzer": "my_custom_analyzer"
+              "analyzer": "my_html",
+              "search_analyzer": "standard"
             }
           }
         }
