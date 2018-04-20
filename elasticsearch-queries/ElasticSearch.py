@@ -22,7 +22,7 @@ request_body = {
         "tag": {
           "properties": {
             "Id": {
-              "type": "string"
+              "type": "long"
             },
             "Title": {
               "type": "string"

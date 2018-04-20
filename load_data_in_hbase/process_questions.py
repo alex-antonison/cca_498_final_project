@@ -102,4 +102,4 @@ rdd.foreachPartition(bulk_insert_hbase)
 #
 # rdd.foreachPartition(batch_insert_graph)
 #
-# spark.stop()
+spark.stop()
