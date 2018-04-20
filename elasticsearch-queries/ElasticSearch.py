@@ -1,12 +1,16 @@
 # 1. Which libraries do I need ?
 import csv
+import string
 from elasticsearch import Elasticsearch
 from bs4 import BeautifulSoup
+
+printable = set(string.printable)
 
 def remove_html_tags(text):
     try:
         soup = BeautifulSoup(text, 'html5lib')
-        return soup.getText()
+        text = (lambda x: x in printable, soup.getText())
+        return
     except:
         print("bs4 issue")
         print(text)
