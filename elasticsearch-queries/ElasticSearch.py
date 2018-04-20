@@ -4,12 +4,10 @@ import string
 from elasticsearch import Elasticsearch
 from bs4 import BeautifulSoup
 
-printable = set(string.printable)
-
 def remove_html_tags(text):
     try:
         soup = BeautifulSoup(text, 'html5lib')
-        text = (lambda x: x in printable, soup.getText())
+        text = ''.join(filter(lambda x: x in string.printable, soup.getText()))
         return text
     except:
         print("bs4 issue")
