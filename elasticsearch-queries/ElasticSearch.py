@@ -17,7 +17,7 @@ request_body = {
     'settings': {
       'number_of_shards': 5,
       'number_of_relicas': 0
-    }
+    },
     'mappings': {
         "settings": {
             "analysis": {
