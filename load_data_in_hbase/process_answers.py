@@ -89,7 +89,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.debug.maxToStringFields", 999999) \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New2.csv')
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 

@@ -8,6 +8,7 @@ def search(es, term):
         index="my_data",
         doc_type="tag",
         body={
+            # "from" : 0, "size" : 5,
             "query": {
                 "bool": {
                     "should": [
@@ -37,7 +38,8 @@ def search(es, term):
             ],
             "highlight": {
                 "fields": {
-                    "*": {}
+                    "Title": {},
+                    "Body": {}
                 }
             }
         })
@@ -46,10 +48,13 @@ def search(es, term):
 
 
 es = Elasticsearch()
-res = search(es, "Connection Reset")
+res = search(es, "Mixing Matplotlib")
 print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
-    # print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
-    print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+    try:
+        print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+    except:
+        print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"],)
+
