@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify, send_from_directory
 import happybase
 import textwrap
 from neo4j.v1 import GraphDatabase
-
+from elasticsearch import Elasticsearch
+import time
 app = Flask(__name__)
 
 
@@ -27,16 +28,38 @@ class GetAnswerCount(object):
 
 
 def batch_insert_graph(id):
-    adapator = GetAnswerCount('bolt://localhost:7687', 'neo4j', 'cca')
+    adapator = GetAnswerCount('bolt://192.168.50.57:7687', 'neo4j', 'neo4j')
     count = adapator.get_answers_count(id)
 
     adapator.close()
     return count
 
 
-@app.route('/get_random_questions_from_hbase', methods=['GET'])
-def get_random_questions_from_hbase():
-    connnection = happybase.Connection("localhost")
+@app.route('/get_questions/<question>', methods=['GET'])
+def get_random_questions_from_hbase(question):
+    start_time = time.time()
+    es = Elasticsearch([{'host': '192.168.50.57', 'port': 9200}])
+    response = search_es(es, question)
+
+    hits = response['hits']['total']
+
+    row_data = {}
+
+    for hit in response['hits']['hits']:
+        if 'Body' in hit["highlight"]:
+            row_data[hit["_source"]["Id"]] = ({'body': " ... ".join(hit["highlight"]["Body"]).replace("\"", ""),
+                                               'title': " ... ".join(hit["highlight"]["Title"]),
+                                               # 'date': data[b'raw:CreationDate'].decode("utf-8"),
+                                               # 'ownerid': data[b'raw:OwnerUserId'].decode("utf-8"),
+                                               # 'score': data[b'raw:Score'].decode("utf-8"),
+                                               # 'tags': str(data[b'mod:Tags'].decode("utf-8")).split(','),
+                                               'count': batch_insert_graph(hit["_source"]["Id"])
+                                               })
+
+    time_taken=(time.time() - start_time)
+
+    '''
+    connnection = happybase.Connection("192.168.50.57")
     table = connnection.table("questions")
     rows = table.rows([b'23721800', b'14853757', b'19170111', b'23059398', b'26580944', b'29748897', b'32765572', b'38056227', b'4590516', b'9998815'])
 
@@ -69,6 +92,9 @@ def get_random_questions_from_hbase():
             print("Error")
 
     return jsonify(row_data)
+    '''
+
+    return jsonify({'data':row_data,'total':hits,'time':time_taken})
 
 
 class GetAnswersIDs(object):
@@ -92,7 +118,7 @@ class GetAnswersIDs(object):
 
 
 def graph_get_answers_id(id):
-    adapator = GetAnswersIDs('bolt://192.168.50.57:7687', 'neo4j', 'cca')
+    adapator = GetAnswersIDs('bolt://192.168.50.57:7687', 'neo4j', 'neo4j')
     answer_ids = adapator.get_answers_id(id)
 
     adapator.close()
@@ -151,6 +177,50 @@ def get_answers_for_question(qid):
     data = {'q': get_question_from_hbase(qid), 'a': hbase_get_answers(answer_ids)}
 
     return jsonify(data)
+
+
+def search_es(es, term):
+    res = es.search(
+        index="my_data",
+        doc_type="tag",
+        body={
+            "from": 0, "size": 10,
+            "query": {
+                "bool": {
+                    "should": [
+                        {
+                            "match": {
+                                "Title": {
+                                    "query": term,
+                                    "boost": 5
+                                }
+                            }
+                        },
+                        {
+                            "match": {
+                                "Body": {
+                                    "query": term,
+                                    "boost": 1
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "_source": [
+                "Id",
+                "Title",
+                "Body"
+            ],
+            "highlight": {
+                "fields": {
+                    "Title": {},
+                    "Body": {}
+                }
+            }
+        })
+
+    return res
 
 
 if __name__ == '__main__':

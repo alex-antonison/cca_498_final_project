@@ -27,8 +27,8 @@
             <li class="nav-item">
                 <div class="justify-content-md-center">
                     <form class="form-inline my-2 my-lg-0 my-lg-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Type here ... " aria-label="Search" style="width: 600px;">
-                        <button class="btn my-2 my-sm-0" type="submit"><span class="oi oi-magnifying-glass"></span></button>
+                        <input class="form-control mr-sm-2" type="text" placeholder="Type here ... " aria-label="Search" style="width: 600px;" id="search-text">
+                        <button class="btn my-2 my-sm-0" type="button" onclick="search()"><span class="oi oi-magnifying-glass"></span></button>
                     </form>
                 </div>
             </li>
@@ -39,7 +39,7 @@
 
 <div class="container" style="margin-top: 20px">
     <div class="row">
-        <div class="col-lg-3">
+        <!--<div class="col-lg-3">
             <div class="card" style="border:none">
                 <div class="card-header text-white" style="background-color:#0068b9 ">
                     Most used Tags
@@ -60,12 +60,12 @@
                     <li class="list-group-item">Web App</li>
                 </ul>
             </div>
-        </div>
-        <div class="col-lg-9">
+        </div>!-->
+        <div class="col-lg-12">
             <div>
                 <div class="card" style="border:none" id="search-container">
                     <div class="card-header text-white" style="background-color:#0068b9 ">
-                        Search Results (30ms)
+                        Search Results [ Total Hits : <span id="hits"></span> , Time Taken : <span id="time"></span> ]
                     </div>
                     <div id="search-results">
 

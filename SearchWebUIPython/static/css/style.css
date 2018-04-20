@@ -9,6 +9,12 @@ pre {
     word-break: break-all !important;
 }
 
-code{
+code {
     word-break: break-all !important;
+}
+
+em {
+    background-color: #c2e3ff !important;
+    color: #000000 !important;
+    font-weight: bold !important;
 }
