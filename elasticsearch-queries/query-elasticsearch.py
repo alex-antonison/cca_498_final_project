@@ -56,4 +56,5 @@ for hit in res['hits']['hits']:
     try:
         print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
     except:
-        print("Error", "%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
+        print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"],)
+

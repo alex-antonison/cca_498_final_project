@@ -1,20 +1,21 @@
 # 1. Which libraries do I need ?
 import csv
 import string
+import re
 from elasticsearch import Elasticsearch
 from bs4 import BeautifulSoup
 
 def remove_html_tags(text):
     try:
         soup = BeautifulSoup(text, 'html5lib')
-        text = ''.join(filter(lambda x: x in string.printable, soup.getText()))
+        text = re.sub(r'[^\x00-\x7F]+',' ', soup.getText())
         return text
     except:
         print("bs4 issue")
         print(text)
 
 data_path = '../Questions_New.csv'
-# data_path = '../raw_data/small/Questions_10.csv'
+
 request_body = {
     "settings": {
       "index": {
@@ -60,11 +61,11 @@ request_body = {
 CHUNKSIZE = 10
 
 
-def index_data(data_path, chunksize, index_name, doc_type):
+def index_data(data_path, index_name, doc_type):
     es = Elasticsearch()
-    try :
+    try:
         es.indices.delete(index_name)
-    except :
+    except:
         pass
     es.indices.create(index=index_name, body=request_body, ignore=400)
     with open(data_path, encoding="ISO-8859-1") as csvfile:
@@ -76,7 +77,6 @@ def index_data(data_path, chunksize, index_name, doc_type):
                 black_list = {"OwnerUserId", "CreationDate", "Score"}
                 rename = {}
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
-                # print(new_dict)
                 es.index(index=index_name,  doc_type=doc_type, body=new_dict, ignore=400)
                 count = count + 1
                 if count % 10000 == 0:
@@ -86,4 +86,4 @@ def index_data(data_path, chunksize, index_name, doc_type):
                 pass
 
 
-index_data(data_path, CHUNKSIZE, 'my_data', 'tag') # Indexing train data
+index_data(data_path, CHUNKSIZE, 'my_data', 'tag')
