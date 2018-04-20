@@ -86,7 +86,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 
 # df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
-questions_df = pd.read_csv("../Questions.csv", encoding='latin1')
+questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/Questions.csv", encoding='latin1')
 
 sqlContext = SQLContext(spark)
 

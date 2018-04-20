@@ -8,7 +8,7 @@ def search(es, term):
         index="my_data",
         doc_type="tag",
         body={
-            "from" : 0, "size" : 5,
+            # "from" : 0, "size" : 5,
             "query": {
                 "bool": {
                     "should": [
@@ -53,5 +53,9 @@ print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
-    print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
-    print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+    # print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
+    try:
+        print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+        print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
+    except:
+        print("Error", "%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
