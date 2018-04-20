@@ -1,9 +1,7 @@
 from pyspark.sql import SparkSession
-from pyspark.sql import SQLContext
 from bs4 import BeautifulSoup
 import happybase
 from neo4j.v1 import GraphDatabase
-import pandas as pd
 
 server = "localhost"
 table_name = "questions"
@@ -86,20 +84,15 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 
 
-# df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
-questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/Questions.csv", encoding='latin1')
+df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
 
-sqlContext = SQLContext(spark)
-#
-df = sqlContext.createDataFrame(questions_df)
-#
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
-#
-# # Remove HTML tags
+
+# Remove HTML tags
 rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
-#
+
 rdd.foreachPartition(bulk_insert_hbase)
-#
-# rdd.foreachPartition(batch_insert_graph)
-#
+
+rdd.foreachPartition(batch_insert_graph)
+
 spark.stop()
