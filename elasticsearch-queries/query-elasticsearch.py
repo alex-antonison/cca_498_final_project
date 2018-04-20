@@ -55,7 +55,7 @@ print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
     # print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
     try:
-        print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+        # print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
         print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
     except:
         print("Error", "%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
