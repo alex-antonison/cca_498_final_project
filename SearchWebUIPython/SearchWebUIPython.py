@@ -131,7 +131,7 @@ def hbase_get_answers(answer_ids):
     for id in answer_ids:
         encoded_ids.append(bytes((str)(id), encoding='utf-8'))
 
-    print(encoded_ids)
+    #print(encoded_ids)
 
     connnection = happybase.Connection("192.168.50.57")
     table = connnection.table("answers")
