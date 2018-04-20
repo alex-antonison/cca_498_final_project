@@ -10,7 +10,7 @@ def remove_html_tags(text):
     try:
         soup = BeautifulSoup(text, 'html5lib')
         text = (lambda x: x in printable, soup.getText())
-        return
+        return text
     except:
         print("bs4 issue")
         print(text)
