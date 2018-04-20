@@ -2,3 +2,13 @@ body {
     zoom: 90%;
     background: #daeef9;
 }
+
+pre {
+    display: flex !important;
+    white-space: normal !important;
+    word-break: break-all !important;
+}
+
+code{
+    word-break: break-all !important;
+}

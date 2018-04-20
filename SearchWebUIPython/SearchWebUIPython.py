@@ -71,5 +71,87 @@ def get_random_questions_from_hbase():
     return jsonify(row_data)
 
 
+class GetAnswersIDs(object):
+    def __init__(self, uri, user, password):
+        self._driver = GraphDatabase.driver(uri, auth=(user, password))
+
+    def close(self):
+        self._driver.close()
+
+    def get_answers_id(self, id):
+        with self._driver.session() as session:
+            return session.write_transaction(self._get_answers_count, id)
+
+    @staticmethod
+    def _get_answers_count(tx, id):
+        result = tx.run("MATCH (q:Question {id: $id}) MATCH (a)-[:ANS_OF]->(q) RETURN a.id", id=int(id))
+        answer_ids = []
+        for record in result:
+            answer_ids.append(record["a.id"])
+        return answer_ids
+
+
+def graph_get_answers_id(id):
+    adapator = GetAnswersIDs('bolt://192.168.50.57:7687', 'neo4j', 'cca')
+    answer_ids = adapator.get_answers_id(id)
+
+    adapator.close()
+    return answer_ids
+
+
+def hbase_get_answers(answer_ids):
+    encoded_ids = []
+
+    for id in answer_ids:
+        encoded_ids.append(bytes((str)(id), encoding='utf-8'))
+
+    print(encoded_ids)
+
+    connnection = happybase.Connection("192.168.50.57")
+    table = connnection.table("answers")
+    rows = table.rows(encoded_ids)
+
+    connnection.close()
+
+    row_data = {}
+
+    for key, data in rows:
+        try:
+            row_data[key.decode("utf-8")] = ({'body': data[b'raw:Body'].decode("utf-8").replace("\"", ""),
+                                              'date': data[b'raw:CreationDate'].decode("utf-8"),
+                                              'user_id': data[b'raw:OwnerUserId'].decode("utf-8"),
+                                              'score': data[b'raw:Score'].decode("utf-8")
+                                              })
+        except:
+            print("Error")
+
+    return row_data
+
+
+def get_question_from_hbase(id):
+    connnection = happybase.Connection("192.168.50.57")
+    table = connnection.table("questions")
+    row = table.row(bytes((str)(id), encoding='utf-8'))
+
+    connnection.close()
+
+    row_data = {'body': row[b'raw:Body'].decode("utf-8").replace("\"", ""),
+                'title': row[b'mod:Title'].decode("utf-8"),
+                'date': row[b'raw:CreationDate'].decode("utf-8"),
+                'ownerid': row[b'raw:OwnerUserId'].decode("utf-8"),
+                'score': row[b'raw:Score'].decode("utf-8")
+                }
+
+    return row_data
+
+
+@app.route('/get_answers_for_question/<qid>', methods=['GET'])
+def get_answers_for_question(qid):
+    answer_ids = graph_get_answers_id(qid)
+    data = {'q': get_question_from_hbase(qid), 'a': hbase_get_answers(answer_ids)}
+
+    return jsonify(data)
+
+
 if __name__ == '__main__':
     app.run()
