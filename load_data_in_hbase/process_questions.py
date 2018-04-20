@@ -1,3 +1,6 @@
+import findspark
+
+findspark.init('/home/home/Softwares/spark-2.3.0-bin-hadoop2.7')
 from pyspark.sql import SparkSession
 from bs4 import BeautifulSoup
 import happybase
@@ -21,8 +24,8 @@ def remove_bad_record(line):
             val = int(line[0])
             return True
         except:
-            return False
             print(line)
+            return False
     else:
         print(line)
         return False
@@ -43,8 +46,7 @@ def bulk_insert_hbase(batch):
                      }
             table.put(key, value)
         except:
-            print("hbase error")
-            # print(t)
+            print(t)
 
 
 class InsertQuestionData(object):
@@ -71,7 +73,7 @@ def covert_to_int(val):
 
 
 def batch_insert_graph(batch):
-    adapator = InsertQuestionData('bolt://localhost:7687', 'neo4j', 'cca')
+    adapator = InsertQuestionData('bolt://localhost:7687', 'neo4j', 'neo4j')
     for t in batch:
         adapator.save_node(covert_to_int(t[0]), covert_to_int(t[1]), t[2], covert_to_int(t[3]))
 
@@ -80,12 +82,12 @@ def batch_insert_graph(batch):
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.debug.maxToStringFields", 999999) \
-    .config("spark.executor.memory", "30gb") \
+    .config("spark.executor.memory", "20gb") \
     .getOrCreate()
 
+df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:9000/user/home/cca/Questions_Processed.csv')
 
-
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+# df.count()
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
