@@ -18,33 +18,7 @@ request_body = {
       'number_of_shards': 5,
       'number_of_relicas': 0
     },
-    'mappings': {
-      "settings": {
-        "analysis": {
-            "char_filter": {
-                "my_html": {
-                    "type": "html_strip"
-                }
-            },
-          "analyzer": {
-            "my_html": {
-              "tokenizer": "standard",
-              "char_filter": [
-                "my_html"
-              ],
-                "type": "custom"
-            }
-          }
-        }
-      },
-      "properties" : {
-        "preview_html": {
-             "type": "string",
-             "analyzer": "my_html",
-             "search_analyzer": "standard"
-        }
-      },
-      "mappings": {
+    "mappings": {
         "tag": {
           "properties": {
             "Id": {
@@ -60,7 +34,6 @@ request_body = {
         }
       }
     }
-}
 CHUNKSIZE = 10
 
 
