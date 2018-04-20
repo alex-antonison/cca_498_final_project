@@ -58,7 +58,7 @@ for hit in res['hits']['hits']:
     try:
         print(counter, " ", "%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
     except:
-        print(counter, " ", "%(Id)s | %(Title)s | %(Body)s" % hit["_source"],)
+        print(counter, " ", "%(Id)s | %(Title)s | %(Body)s" % hit["_source"])
 
     counter = counter + 1
 
