@@ -17,7 +17,20 @@ request_body = {
     'settings': {
       'number_of_shards': 5,
       'number_of_relicas': 0
-    },
+    }
+    'mappings': {
+        "settings": {
+            "analysis": {
+                "analyzer": {
+                    "my_custom_analyzer": {
+                        "tokenizer": "standard",
+                        "char_filter": [
+                            "html_strip"
+                        ]
+                    }
+                }
+            }
+        },
     "mappings": {
         "tag": {
           "properties": {
@@ -25,15 +38,18 @@ request_body = {
               "type": "long"
             },
             "Title": {
-              "type": "string"
+              "type": "string",
+              "analyzer": "my_custom_analyzer"
             },
             "Body": {
-              "type": "string"
+              "type": "string",
+              "analyzer": "my_custom_analyzer"
             }
           }
         }
       }
     }
+}
 CHUNKSIZE = 10
 
 
