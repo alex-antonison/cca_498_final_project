@@ -86,4 +86,4 @@ def index_data(data_path, index_name, doc_type):
                 pass
 
 
-index_data(data_path, CHUNKSIZE, 'my_data', 'tag')
+index_data(data_path, 'my_data', 'tag')
