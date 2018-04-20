@@ -16,7 +16,7 @@ def search(es, term):
                             "match": {
                                 "Title": {
                                     "query": term,
-                                    "boost": 10
+                                    "boost": 5
                                 }
                             }
                         },
@@ -48,7 +48,7 @@ def search(es, term):
 
 
 es = Elasticsearch()
-res = search(es, "Mixing Matplotlib")
+res = search(es, "Matplotlib")
 print(res)
 
 print("Got %d Hits:" % res['hits']['total'])
