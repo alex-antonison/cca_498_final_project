@@ -14,23 +14,26 @@ def remove_html_tags(text):
 data_path = '../Questions_New.csv'
 # data_path = '../raw_data/small/Questions_10.csv'
 request_body = {
-    'settings': {
-      'number_of_shards': 5,
-      'number_of_relicas': 0
-    },
-    'mappings': {
-        "settings": {
-            "analysis": {
-                "analyzer": {
-                    "my_custom_analyzer": {
-                        "tokenizer": "standard",
-                        "char_filter": [
-                            "html_strip"
-                        ]
-                    }
-                }
+    "settings": {
+      "index": {
+         "analysis": {
+            "char_filter": {
+               "my_html": {
+                  "type": "html_strip"
+               }
+            },
+            "analyzer": {
+               "my_html": {
+                  "tokenizer": "standard",
+                  "char_filter": [
+                     "my_html"
+                  ],
+                  "type": "custom"
+               }
             }
-        },
+         }
+      }
+   },
     "mappings": {
         "tag": {
           "properties": {
@@ -49,7 +52,7 @@ request_body = {
         }
       }
     }
-}
+
 CHUNKSIZE = 10
 
 
