@@ -8,7 +8,7 @@ def search(es, term):
         index="my_data",
         doc_type="tag",
         body={
-            # "from" : 0, "size" : 5,
+            "from" : 0, "size" : 100,
             "query": {
                 "bool": {
                     "should": [
@@ -51,10 +51,14 @@ es = Elasticsearch()
 res = search(es, "Matplotlib")
 print(res)
 
+counter = 1
+
 print("Got %d Hits:" % res['hits']['total'])
 for hit in res['hits']['hits']:
     try:
-        print("%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
+        print(counter, " ", "%(Id)s" % hit["_source"], "%(Title)s | %(Body)s" % hit["highlight"])
     except:
-        print("%(Id)s | %(Title)s | %(Body)s" % hit["_source"],)
+        print(counter, " ", "%(Id)s | %(Title)s | %(Body)s" % hit["_source"],)
+
+    counter = counter + 1
 
