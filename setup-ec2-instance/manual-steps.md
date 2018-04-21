@@ -42,13 +42,13 @@ ssh -i "[aws-key-pair.pem]]" -N \
  Example
 
 ssh -i "aws-boinc-key.pem" -N \
--L 8080:ec2-184-72-209-30.compute-1.amazonaws.com:8080 \
--L 7474:ec2-184-72-209-30.compute-1.amazonaws.com:7474 \
--L 5601:ec2-184-72-209-30.compute-1.amazonaws.com:5601 \
--L 7687:ec2-184-72-209-30.compute-1.amazonaws.com:7687 \
--L 9200:ec2-184-72-209-30.compute-1.amazonaws.com:9200 \
--L 9090:ec2-184-72-209-30.compute-1.amazonaws.com:9090 \
- ubuntu@ec2-184-72-209-30.compute-1.amazonaws.com
+-L 8080:ec2-52-200-241-201.compute-1.amazonaws.com:8080 \
+-L 7474:ec2-52-200-241-201.compute-1.amazonaws.com:7474 \
+-L 5601:ec2-52-200-241-201.compute-1.amazonaws.com:5601 \
+-L 7687:ec2-52-200-241-201.compute-1.amazonaws.com:7687 \
+-L 9200:ec2-52-200-241-201.compute-1.amazonaws.com:9200 \
+-L 9090:ec2-52-200-241-201.compute-1.amazonaws.com:9090 \
+ ubuntu@ec2-52-200-241-201.compute-1.amazonaws.com
 
 ### Wait until you see Ambari is up and running on port 8080
 ### If you do it beforehand, it can cause issues with HDFS

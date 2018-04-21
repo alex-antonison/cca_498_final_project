@@ -28,7 +28,7 @@ class GetAnswerCount(object):
 
 
 def batch_insert_graph(id):
-    adapator = GetAnswerCount('bolt://192.168.50.57:7687', 'neo4j', 'neo4j')
+    adapator = GetAnswerCount('bolt://localhost:7687', 'neo4j', 'neo4j')
     count = adapator.get_answers_count(id)
 
     adapator.close()
@@ -38,7 +38,7 @@ def batch_insert_graph(id):
 @app.route('/get_questions/<question>', methods=['GET'])
 def get_random_questions_from_hbase(question):
     start_time = time.time()
-    es = Elasticsearch([{'host': '192.168.50.57', 'port': 9200}])
+    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     response = search_es(es, question)
 
     hits = response['hits']['total']
@@ -59,7 +59,7 @@ def get_random_questions_from_hbase(question):
     time_taken=(time.time() - start_time)
 
     '''
-    connnection = happybase.Connection("192.168.50.57")
+    connnection = happybase.Connection("localhost")
     table = connnection.table("questions")
     rows = table.rows([b'23721800', b'14853757', b'19170111', b'23059398', b'26580944', b'29748897', b'32765572', b'38056227', b'4590516', b'9998815'])
 
@@ -118,7 +118,7 @@ class GetAnswersIDs(object):
 
 
 def graph_get_answers_id(id):
-    adapator = GetAnswersIDs('bolt://192.168.50.57:7687', 'neo4j', 'neo4j')
+    adapator = GetAnswersIDs('bolt://localhost:7687', 'neo4j', 'neo4j')
     answer_ids = adapator.get_answers_id(id)
 
     adapator.close()
@@ -133,7 +133,7 @@ def hbase_get_answers(answer_ids):
 
     #print(encoded_ids)
 
-    connnection = happybase.Connection("192.168.50.57")
+    connnection = happybase.Connection("localhost")
     table = connnection.table("answers")
     rows = table.rows(encoded_ids)
 
@@ -155,7 +155,7 @@ def hbase_get_answers(answer_ids):
 
 
 def get_question_from_hbase(id):
-    connnection = happybase.Connection("192.168.50.57")
+    connnection = happybase.Connection("localhost")
     table = connnection.table("questions")
     row = table.row(bytes((str)(id), encoding='utf-8'))
 
