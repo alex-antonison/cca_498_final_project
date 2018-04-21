@@ -118,7 +118,7 @@ class GetAnswersIDs(object):
 
 
 def graph_get_answers_id(id):
-    adapator = GetAnswersIDs('bolt://localhost:7687', 'neo4j', 'neo4j')
+    adapator = GetAnswersIDs('bolt://localhost:7687', 'neo4j', 'cca')
     answer_ids = adapator.get_answers_id(id)
 
     adapator.close()
