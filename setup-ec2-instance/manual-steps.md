@@ -23,6 +23,7 @@ Custom TCP Rule | TCP      | 7474       | Anywhere
 Custom TCP Rule | TCP      | 5601       | Anywhere
 Custom TCP Rule | TCP      | 7687       | Anywhere
 Custom TCP Rule | TCP      | 9090       | Anywhere
+Custom TCP Rule | TCP      | 5000       | Anywhere
 
 ### Step 2 - Run setup-ec2-instance.sh script
 ssh -i "aws-boinc-key.pem" ubuntu@ec2-34-203-224-198.compute-1.amazonaws.com
@@ -48,6 +49,7 @@ ssh -i "aws-boinc-key.pem" -N \
 -L 7687:ec2-52-200-241-201.compute-1.amazonaws.com:7687 \
 -L 9200:ec2-52-200-241-201.compute-1.amazonaws.com:9200 \
 -L 9090:ec2-52-200-241-201.compute-1.amazonaws.com:9090 \
+-L 5000:ec2-52-200-241-201.compute-1.amazonaws.com:5000 \
  ubuntu@ec2-52-200-241-201.compute-1.amazonaws.com
 
 ### Wait until you see Ambari is up and running on port 8080
