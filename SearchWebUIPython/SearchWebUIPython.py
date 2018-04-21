@@ -28,7 +28,7 @@ class GetAnswerCount(object):
 
 
 def batch_insert_graph(id):
-    adapator = GetAnswerCount('bolt://localhost:7687', 'neo4j', 'neo4j')
+    adapator = GetAnswerCount('bolt://localhost:7687', 'neo4j', 'cca')
     count = adapator.get_answers_count(id)
 
     adapator.close()
