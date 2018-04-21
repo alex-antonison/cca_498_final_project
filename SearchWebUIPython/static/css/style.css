@@ -2,3 +2,19 @@ body {
     zoom: 90%;
     background: #daeef9;
 }
+
+pre {
+    display: flex !important;
+    white-space: normal !important;
+    word-break: break-all !important;
+}
+
+code {
+    word-break: break-all !important;
+}
+
+em {
+    background-color: #c2e3ff !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+}

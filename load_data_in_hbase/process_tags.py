@@ -49,9 +49,13 @@ class InsertTagData(object):
     @staticmethod
     def _create_node_tx(tx, id, tags):
         for tag in tags:
-            tx.run("MATCH (t:Tag {title: $tag}) "
-                   "MATCH (q:Question {id: $id}) "
-                   "MERGE (t)-[:TAG_OF]->(q)", id=id, tag=tag.strip().lower())
+            try:
+                tx.run("MATCH (t:Tag {title: $tag}) "
+                       "MATCH (q:Question {id: $id}) "
+                       "MERGE (t)-[:TAG_OF]->(q)", id=id, tag=tag.strip().lower())
+            except:
+                print(tag)
+                type(tag)
 
 
 def covert_to_int(val):
@@ -62,14 +66,14 @@ def covert_to_int(val):
 
 
 def batch_insert_graph(batch):
-    adapator = InsertTagNode('bolt://localhost:7687', 'neo4j', 'cca')
+    adapator = InsertTagNode('bolt://localhost:7687', 'neo4j', 'neo4j')
     for t in batch:
         adapator.save_node(t)
     adapator.close()
 
 
 def batch_create_edge(batch):
-    adapator = InsertTagData('bolt://localhost:7687', 'neo4j', 'cca')
+    adapator = InsertTagData('bolt://localhost:7687', 'neo4j', 'neo4j')
     for t in batch:
         adapator.save_node(covert_to_int(t[0]), t[1])
 
@@ -78,9 +82,10 @@ def batch_create_edge(batch):
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.debug.maxToStringFields", 999) \
+    .config("spark.executor.memory", "24gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Tags.csv')
+df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:9000/user/home/cca/Tags.csv')
 
 rdd = df.rdd.groupByKey().mapValues(list)
 

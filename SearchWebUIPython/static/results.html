@@ -8,13 +8,16 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" >
     <link rel="stylesheet" href="css/open-iconic-bootstrap.css">
+    <link rel="stylesheet" href="css/atom-one-light.css">
     <link rel="stylesheet" href="css/style.css">
     <title>Hello, world!</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#0068b9">
-    <a class="navbar-brand" href="#"><span style="background-color: white;color: #0068b9;border-radius: 5px;font-weight: bold;font-size: 15px;margin-right: 15px;padding:5px">CCA</span>Python Answer Search</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#"><span style="background-color: white;color: #0068b9;border-radius: 5px;font-weight: bold;font-size: 15px;margin-right: 15px;padding:5px">CCA</span>Python Answer
+        Search</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
         <span class="navbar-toggler-icon "></span>
     </button>
 
@@ -35,7 +38,7 @@
 
 <div class="container" style="margin-top: 20px">
     <div class="row">
-        <div class="col-lg-3">
+        <!--<div class="col-lg-3">
             <div class="card" style="border:none">
                 <div class="card-header text-white" style="background-color:#0068b9 ">
                     Most used Tags
@@ -56,8 +59,8 @@
                     <li class="list-group-item">Web App</li>
                 </ul>
             </div>
-        </div>
-        <div class="col-lg-9">
+        </div>-->
+        <div class="col-lg-12">
             <div>
                 <div class="card" style="border:none">
                     <div class="card-header text-white" style="background-color:#0068b9 ">
@@ -68,39 +71,28 @@
                         <div class="card border-secondary mb-3" style="border:1px solid #dfdfdf !important;border-radius:0;">
                             <div class="card-header" style="border-bottom-style: dashed;background-color: rgba(0, 0, 0, 0.03)">
                                 <div style="margin-right:20px;background-color: #0068b9;border-radius: 5px;padding:7px;" class="float-left">
-                                    <div class="text-center" style="font-size: 30px;font-weight: 600;color: #FFFFFF;">10</div>
+                                    <div class="text-center" style="font-size: 30px;font-weight: 600;color: #FFFFFF;" id="count">10</div>
                                     <div style="color:#FFFFFF">Answers</div>
                                 </div>
                                 <div style="color:#0078d5;font-weight: bold;margin-left:10px;font-size: 18px; line-height:100%;align-items: center;padding-bottom: 5px">
-                                    <a style="color:#0078d5;" href="#">Some quick example text to build on the card title and make up the bulk of the card's content.  Some quick example text to build on the card title and make up the bulk of the card's content.</a>
+                                    <a style="color:#0078d5;" href="#" id="title"></a>
                                 </div>
                                 <div>
-                                    <label style="font-weight: bold;color:#666666;padding-right: 10px;padding-top:10px">Score: </label><span>50</span>
+                                    <label style="font-weight: bold;color:#666666;padding-right: 10px;padding-top:10px">Score: </label><span id="score"></span>
                                     <label style="font-weight: bold;color:#666666;padding-right: 10px;padding-left:10px">Date </label><span>04/04/2019</span>
                                 </div>
 
                             </div>
-                            <div class="card-body text-secondary">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.  Some quick example text to build on the card title and make up the bulk of the card's content.
+                            <div class="card-body text-secondary" id="q_body">
+
                             </div>
                             <div class="card-footer text-muted" style="border-top-style: dashed">
                                 <a href="#" style="padding:5px">python</a><a href="#" style="padding:5px">panda</a>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" style="padding-top: 0;padding-bottom: 0px">
-                        <div class="card border-secondary mb-3" style="border:1px solid #dfdfdf !important;border-radius:0;">
-                            <div class="card-body text-secondary">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.  Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" style="padding-top: 0;padding-bottom: 0px">
-                        <div class="card border-secondary mb-3" style="border:1px solid #dfdfdf !important;border-radius:0;">
-                            <div class="card-body text-secondary">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.  Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </div>
-                        </div>
+                    <div id="answers_content">
+
                     </div>
                 </div>
 
@@ -112,7 +104,15 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
 <script src="lib/bootstrap.bundle.js"></script>
+<script src="/static/lib/highlight.pack.js"></script>
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script src="/static/js/results.js"></script>
+
 </body>
 </html>

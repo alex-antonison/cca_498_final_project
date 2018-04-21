@@ -92,6 +92,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 df = spark.read.format('csv').option('header', 'true').option('mode', 'DROPMALFORMED').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
 
+
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
 # # Remove HTML tags
