@@ -66,14 +66,14 @@ def covert_to_int(val):
 
 
 def batch_insert_graph(batch):
-    adapator = InsertTagNode('bolt://localhost:7687', 'neo4j', 'neo4j')
+    adapator = InsertTagNode('bolt://localhost:7687', 'neo4j', 'cca')
     for t in batch:
         adapator.save_node(t)
     adapator.close()
 
 
 def batch_create_edge(batch):
-    adapator = InsertTagData('bolt://localhost:7687', 'neo4j', 'neo4j')
+    adapator = InsertTagData('bolt://localhost:7687', 'neo4j', 'cca')
     for t in batch:
         adapator.save_node(covert_to_int(t[0]), t[1])
 
@@ -82,7 +82,7 @@ def batch_create_edge(batch):
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.debug.maxToStringFields", 999) \
-    .config("spark.executor.memory", "24gb") \
+    .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
 df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:9000/demo/data/CCA/Tags.csv')

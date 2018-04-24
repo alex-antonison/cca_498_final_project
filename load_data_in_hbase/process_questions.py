@@ -73,7 +73,7 @@ def covert_to_int(val):
 
 
 def batch_insert_graph(batch):
-    adapator = InsertQuestionData('bolt://localhost:7687', 'neo4j', 'neo4j')
+    adapator = InsertQuestionData('bolt://localhost:7687', 'neo4j', 'cca')
     for t in batch:
         adapator.save_node(covert_to_int(t[0]), covert_to_int(t[1]), t[2], covert_to_int(t[3]))
 
