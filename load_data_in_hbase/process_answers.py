@@ -106,10 +106,10 @@ answers_schema = StructType([StructField('Id',IntegerType(),True),
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-rdd = spark.createDataFrame(answers_df, answers_schema)
+df = spark.createDataFrame(answers_df, answers_schema)
 
 # # Remove HTML tags
-rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
+rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
 rdd.foreachPartition(bulk_insert_hbase)
 
