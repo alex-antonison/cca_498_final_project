@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.types import *
 from bs4 import BeautifulSoup
 import happybase
 from neo4j.v1 import GraphDatabase
@@ -89,16 +90,28 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
+# df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
 
 
-rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
+
+answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
+
+answers_schema = StructType([StructField('Id',IntegerType(),True),
+                             StructField('OwnerUserId',IntegerType(),True),
+                             StructField('CreationDate',StringType(),True),
+                             StructField('ParentId',IntegerType(),True),
+                             StructField('Score',IntegerType(),True),
+                             StructField('Body',StringType(),True)])
+
+# rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
+
+rdd = spark.createDataFrame(answers_df, answers_schema)
 
 # # Remove HTML tags
 rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
 rdd.foreachPartition(bulk_insert_hbase)
 
-rdd.foreachPartition(batch_insert_graph)
+# rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
