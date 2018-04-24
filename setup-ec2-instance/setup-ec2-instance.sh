@@ -62,14 +62,6 @@ sudo docker run -d --restart unless-stopped \
     --name elasticsearch \
     -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.2.3
 
-# Seutp Kibana
-sudo docker run -d --restart unless-stopped \
-    --network my-net \
-    -p 5601:5601 \
-    -e ELASTICSEARCH_URL=http://elasticsearch:9200 \
-    --name kibana \
-    docker.elastic.co/kibana/kibana:6.2.3
-
 # Setup Java
 echo debconf shared/accepted-oracle-license-v1-1 select true | \
 sudo debconf-set-selections
