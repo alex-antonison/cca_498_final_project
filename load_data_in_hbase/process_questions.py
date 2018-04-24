@@ -91,7 +91,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
 questions_schema = StructType([StructField('Id', IntegerType(),True),
-                               StructField('OwnerUserId', FloatType(),True),
+                               StructField('OwnerUserId', IntegerType(),True),
                                StructField('CreationDate', StringType(),True),
                                StructField('Score', IntegerType(),True),
                                StructField('Title', StringType(),True),
