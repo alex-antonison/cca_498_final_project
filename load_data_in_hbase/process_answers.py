@@ -108,7 +108,7 @@ answers_schema = StructType([StructField('Id',IntegerType(),True),
 
 df = spark.createDataFrame(answers_df, answers_schema)
 
-rdd = spark..parallelize(df)
+rdd = spark.parallelize(df)
 
 # # Remove HTML tags
 rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
