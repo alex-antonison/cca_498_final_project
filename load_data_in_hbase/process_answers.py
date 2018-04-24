@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-# import pandas as pd
+import pandas as pd
 from pyspark.sql.types import *
 from bs4 import BeautifulSoup
 import happybase
@@ -98,7 +98,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
 
 answers_schema = StructType([StructField('Id',IntegerType(),True),
-                             StructField('OwnerUserId',IntegerType(),True),
+                             StructField('OwnerUserId',FloatType(),True),
                              StructField('CreationDate',StringType(),True),
                              StructField('ParentId',IntegerType(),True),
                              StructField('Score',IntegerType(),True),
