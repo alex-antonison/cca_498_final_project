@@ -113,6 +113,6 @@ rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5]
 
 rdd.foreachPartition(bulk_insert_hbase)
 
-rdd.foreachPartition(batch_insert_graph)
+# rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
