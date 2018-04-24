@@ -89,7 +89,7 @@ def batch_insert_graph(batch):
 from pyspark import SparkContext
 sc = SparkContext()
 
-# sqlContext = SQLContext(sc)
+sqlContext = SQLContext(sc)
 
 # df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
 
@@ -104,7 +104,7 @@ questions_schema = StructType([StructField('Id', IntegerType(),True),
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-rdd = sc.createDataFrame(questions_df, questions_schema)
+rdd = sqlContext.createDataFrame(questions_df, questions_schema)
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
