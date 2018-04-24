@@ -83,7 +83,7 @@ def batch_insert_graph(batch):
 
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.debug.maxToStringFields", 999999) \
+    # .config("spark.debug.maxToStringFields", 999999) \
     .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
@@ -102,7 +102,7 @@ questions_schema = StructType([StructField('Id', IntegerType(),True),
 
 df = spark.createDataFrame(questions_df, questions_schema)
 
-df.head()
+questions_df.head()
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
