@@ -107,7 +107,7 @@ df = spark.createDataFrame(questions_df, questions_schema)
 # Remove HTML tags
 rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
 
-
+print(rdd.first())
 
 rdd.foreachPartition(bulk_insert_hbase)
 
