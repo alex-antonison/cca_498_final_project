@@ -37,6 +37,7 @@ def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name)
     for t in batch:
         # try:
+        print(t[0])
         key = t[0]
         value = {"raw:OwnerUserId": t[1],
                     "raw:CreationDate": t[2],
@@ -83,12 +84,14 @@ def batch_insert_graph(batch):
 
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.executor.memory", "20gb") \
+    .config("spark.executor.memory", "2gb") \
     .getOrCreate()
 
 # df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
 
-questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+# questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+
+questions_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
 questions_schema = StructType([StructField('Id', IntegerType(), True),
                                StructField('OwnerUserId', FloatType(), True),
@@ -103,6 +106,8 @@ df = spark.createDataFrame(questions_df, questions_schema)
 
 # Remove HTML tags
 rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
+
+
 
 rdd.foreachPartition(bulk_insert_hbase)
 
