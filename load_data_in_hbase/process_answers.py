@@ -36,19 +36,19 @@ def remove_bad_record(line):
 def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name)
     for t in batch:
-        try:
-            key = t[0]
-            value = {"raw:OwnerUserId": t[1],
-                        "raw:CreationDate": t[2],
-                        "raw:ParentId": t[3],
-                        "raw:Score": t[4],
-                        "raw:Body": t[5],
-                        "mod:Body": t[6]
-                        }
-            table.put(key, value)
-        except:
-            print("Failed to insert into HBase")
-            print(t)
+        # try:
+        key = t[0]
+        value = {"raw:OwnerUserId": t[1],
+                    "raw:CreationDate": t[2],
+                    "raw:ParentId": t[3],
+                    "raw:Score": t[4],
+                    "raw:Body": t[5],
+                    "mod:Body": t[6]
+                    }
+        table.put(key, value)
+        # except:
+        #     print("Failed to insert into HBase")
+        #     print(t)
 
 
 
