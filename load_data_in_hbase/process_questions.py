@@ -13,11 +13,11 @@ table_name = "questions"
 
 
 def remove_html_tags(text):
-    # try:
-    soup = BeautifulSoup(text, 'html5lib')
-    return soup.getText()
-    # except:
-    #     print(text)
+    try:
+        soup = BeautifulSoup(text, 'html5lib')
+        return soup.getText()
+    except:
+        print(text)
 
 
 def remove_bad_record(line):
@@ -36,19 +36,19 @@ def remove_bad_record(line):
 def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name)
     for t in batch:
-        # try:
-        key = t[0]
-        value = {"raw:OwnerUserId": t[1],
-                    "raw:CreationDate": t[2],
-                    "raw:Score": t[3],
-                    "raw:Title": t[4],
-                    "raw:Body": t[5],
-                    "mod:Title": t[6],
-                    "mod:Body": t[7]
-                    }
-        table.put(key, value)
-        # except:
-        #     print(t)
+        try:
+            key = t[0]
+            value = {"raw:OwnerUserId": t[1],
+                        "raw:CreationDate": t[2],
+                        "raw:Score": t[3],
+                        "raw:Title": t[4],
+                        "raw:Body": t[5],
+                        "mod:Title": t[6],
+                        "mod:Body": t[7]
+                        }
+            table.put(key, value)
+        except:
+            print(t)
 
 
 class InsertQuestionData(object):
