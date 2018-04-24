@@ -95,7 +95,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 
 
-answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
+answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
 
 answers_schema = StructType([StructField('Id',IntegerType(),True),
                              StructField('OwnerUserId',FloatType(),True),
