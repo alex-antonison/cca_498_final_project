@@ -1,6 +1,8 @@
 # import findspark
 #
 # findspark.init('/home/home/Softwares/spark-2.3.0-bin-hadoop2.7')
+import pandas as pd
+from pyspark.sql.types import *
 from pyspark.sql import SparkSession
 from bs4 import BeautifulSoup
 import happybase
