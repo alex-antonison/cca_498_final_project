@@ -85,7 +85,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:9000/demo/data/CCA/Tags.csv')
+df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Tags.csv')
 
 rdd = df.rdd.groupByKey().mapValues(list)
 
