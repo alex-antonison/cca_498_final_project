@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-import pandas as pd
+# import pandas as pd
 from pyspark.sql.types import *
 from bs4 import BeautifulSoup
 import happybase
