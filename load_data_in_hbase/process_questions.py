@@ -85,9 +85,21 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
-df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+# df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
 
-# df.count()
+questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+
+questions_schema = StructType([StructField('Id', IntegerType(),True),
+                             StructField('OwnerUserId', IntegerType(),True),
+                             StructField('CreationDate', StringType(),True),
+                             StructField('Score', IntegerType(),True),
+                             StructField('Title', StringType(),True),
+                             StructField('Body', StringType(),True)])
+
+# rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
+
+rdd = spark.createDataFrame(questions_df, questions_schema)
+
 
 rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
