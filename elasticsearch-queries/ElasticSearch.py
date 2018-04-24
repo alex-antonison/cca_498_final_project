@@ -14,7 +14,7 @@ def remove_html_tags(text):
         print("bs4 issue")
         print(text)
 
-data_path = '../Questions_New.csv'
+data_path = 'Questions_New.csv'
 
 request_body = {
     "settings": {
@@ -79,7 +79,7 @@ def index_data(data_path, index_name, doc_type):
                 new_dict = {rename.get(key, key): val for key, val in row.items() if key not in black_list}
                 es.index(index=index_name,  doc_type=doc_type, body=new_dict, ignore=400)
                 count = count + 1
-                if count % 10000 == 0:
+                if count % 100 == 0:
                     print("Success: ", count)
             except Exception as ex :
                 print("error!, skiping chunk! {}".format(ex))
