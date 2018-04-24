@@ -88,7 +88,7 @@ def batch_insert_graph(batch):
 
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.executor.memory", "40gb") \
+    .config("spark.executor.memory", "20gb") \
     .getOrCreate()
 
 # df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Answers_New.csv')
