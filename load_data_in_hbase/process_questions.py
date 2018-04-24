@@ -99,7 +99,7 @@ questions_schema = StructType([StructField('Id', IntegerType(),True),
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-df = spark.createDataFrame(questions_df, questions_schema).collect()
+df = spark.createDataFrame(questions_df, questions_schema)
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
