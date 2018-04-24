@@ -96,7 +96,7 @@ tags_schema = StructType([StructField('Id', IntegerType(),True),
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-rdd = spark.createDataFrame(tags_df, tags_schema)
+df = spark.createDataFrame(tags_df, tags_schema)
 
 rdd = df.rdd.groupByKey().mapValues(list)
 
