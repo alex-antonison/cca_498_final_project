@@ -95,23 +95,26 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 
 
-answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
+# answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
 
-answers_schema = StructType([StructField('Id',IntegerType(),True),
-                             StructField('OwnerUserId',FloatType(),True),
-                             StructField('CreationDate',StringType(),True),
-                             StructField('ParentId',IntegerType(),True),
-                             StructField('Score',IntegerType(),True),
-                             StructField('Body',StringType(),True)])
+answers_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
+
+answers_df['Id'] = answers_df['Id'].astype(str)
+answers_df['OwnerUserId'] = answers_df['OwnerUserId'].astype(str)
+answers_df['ParentId'] = answers_df['ParentId'].astype(str)
+answers_df['Score'] = answers_df['Score'].astype(str)
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-df = spark.createDataFrame(answers_df, answers_schema)
+df = spark.createDataFrame(answers_df)
 
-rdd = spark.parallelize(df)
+print(df.printSchema())
 
 # # Remove HTML tags
-rdd = rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
+rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
+
+
+
 
 rdd.foreachPartition(bulk_insert_hbase)
 
