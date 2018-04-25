@@ -48,6 +48,7 @@ def bulk_insert_hbase(batch):
                  "mod:Body": t[7]
                 }
         table.put(key, value)
+        table.send()
         # except:
         #     print(t)
 
