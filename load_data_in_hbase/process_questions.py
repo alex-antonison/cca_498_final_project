@@ -124,11 +124,11 @@ rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line
 
 # print(type(rdd.toDf().printSchema()))
 
-# rdd.foreachPartition(bulk_insert_hbase)
+rdd.foreachPartition(bulk_insert_hbase)
 
 
-df2 = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
-
-df2.rdd.foreachPartition(batch_insert_graph)
+# df2 = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+#
+rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()

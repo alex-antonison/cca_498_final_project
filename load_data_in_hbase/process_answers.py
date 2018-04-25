@@ -95,9 +95,9 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 
 
-answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
+# answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
 
-# answers_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
+answers_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
 
 answers_df['Id'] = answers_df['Id'].astype(str)
 answers_df['OwnerUserId'] = answers_df['OwnerUserId'].astype(str)
@@ -113,11 +113,20 @@ print(df.printSchema())
 # # Remove HTML tags
 rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
-
-
-
 # rdd.foreachPartition(bulk_insert_hbase)
 
-rdd.foreachPartition(batch_insert_graph)
+
+answers_df['Id'] = answers_df['Id'].astype(int)
+answers_df['OwnerUserId'] = answers_df['OwnerUserId'].astype(float)
+answers_df['ParentId'] = answers_df['ParentId'].astype(int)
+answers_df['Score'] = answers_df['Score'].astype(int)
+
+df2 = spark.createDataFrame(answers_df)
+
+
+print(df2.printSchema())
+
+
+df2.rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
