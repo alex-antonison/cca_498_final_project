@@ -95,9 +95,9 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 
 
-# answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
+answers_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Answers.csv", encoding='latin1')
 
-answers_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
+# answers_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Answers_New.csv", encoding='latin1')
 
 answers_df['Id'] = answers_df['Id'].astype(str)
 answers_df['OwnerUserId'] = answers_df['OwnerUserId'].astype(str)
