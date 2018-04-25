@@ -82,7 +82,7 @@ class InsertAnswerData(object):
 def batch_insert_graph(batch):
     adapator = InsertAnswerData('bolt://localhost:7687', 'neo4j', 'cca')
     for t in batch:
-        print(t[0])
+        # print(t[0])
         adapator.save_node(t[0], t[1], t[2], t[3], t[4])
 
     adapator.close()
