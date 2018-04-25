@@ -83,52 +83,22 @@ def batch_insert_graph(batch):
 
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.executor.memory", "40gb") \
+    .config("spark.executor.memory", "30gb") \
     .getOrCreate()
 
-
-
-questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
-
-
-
-
-# questions_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/Questions.csv", encoding='latin1')
 
 questions_df['Id'] = questions_df['Id'].astype(str)
 questions_df['OwnerUserId'] = questions_df['OwnerUserId'].astype(str)
 questions_df['Score'] = questions_df['Score'].astype(str)
 
-# rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
-
-# questions_df['mod_title'] = questions_df['Title'].apply(remove_html_tags)
-# questions_df['mod_body'] = questions_df['Body'].apply(remove_html_tags)
-
-# questions_df['Id'].astype(str)
-
-# questions_df.apply(bulk_insert_hbase, axis=1)
-
-# print(questions_df.head())
-
-
 df = spark.createDataFrame(questions_df)
-
-# print(df.printSchema())
 
 # Remove HTML tags
 rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
 
-# print(type(rdd.toDf.toPandas()))
-#
-# print(rdd.first())
-
-# print(type(rdd.toDf().printSchema()))
-
 rdd.foreachPartition(bulk_insert_hbase)
 
-
-# df2 = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
-#
-rdd.foreachPartition(batch_insert_graph)
+# rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
