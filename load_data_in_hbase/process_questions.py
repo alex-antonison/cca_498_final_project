@@ -33,21 +33,21 @@ def remove_bad_record(line):
         return False
 
 
-def bulk_insert_hbase(batch):
+def bulk_insert_hbase(row):
     table = happybase.Connection(server).table(table_name).batch(timestamp=123456789)
-    for t in batch:
+    # for t in batch:
         # try:
         # print(t[0])
-        key = t[0]
-        value = {"raw:OwnerUserId": t[1],
-                 "raw:CreationDate": t[2],
-                 "raw:Score": t[3],
-                 "raw:Title": t[4],
-                 "raw:Body": t[5],
-                 "mod:Title": t[6],
-                 "mod:Body": t[7]
-                }
-        table.put(key, value)
+    key = row['Id']
+    value = {"raw:OwnerUserId": row['OwnerUserId'],
+             "raw:CreationDate": row['CreationDate'],
+             "raw:Score": row['Score'],
+             "raw:Title": row['Title'],
+             "raw:Body": row['Body'],
+             "mod:Title": row['mod_title'],
+             "mod:Body": row['mod_body']
+            }
+    table.put(key, value)
     table.send()
         # except:
         #     print(t)
@@ -84,29 +84,39 @@ def batch_insert_graph(batch):
     adapator.close()
 
 
-spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.executor.memory", "40gb") \
-    .getOrCreate()
+# spark = SparkSession.builder.master("local[*]").appName("CCA") \
+#     .config("spark.executor.memory", "40gb") \
+#     .getOrCreate()
 
 # df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
 
-questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+# questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
-# questions_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+questions_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-df = spark.createDataFrame(questions_df)
+questions_df['mod_title'] = questions_df['Title'].apply(remove_html_tags)
+questions_df['mod_body'] = questions_df['Body'].apply(remove_html_tags)
+
+questions_df.apply(bulk_insert_hbase, axis=1)
+
+# print(questions_df.head())
+
+
+# df = spark.createDataFrame(questions_df)
 
 # Remove HTML tags
-rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
+# rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
 
+# print(type(rdd.toDf.toPandas()))
+#
 # print(rdd.first())
 
 # print(type(rdd.toDf().printSchema()))
 
-rdd.foreachPartition(bulk_insert_hbase)
+# rdd.foreachPartition(bulk_insert_hbase)
 
 # rdd.foreachPartition(batch_insert_graph)
 
-spark.stop()
+# spark.stop()
