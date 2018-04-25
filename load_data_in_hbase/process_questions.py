@@ -33,23 +33,20 @@ def remove_bad_record(line):
         return False
 
 
-def bulk_insert_hbase(row):
+def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name)
-    # for t in batch:
+    for t in batch:
         # try:
-        # print(t[0])
-    key = row['Id']
-    value = {"raw:OwnerUserId": row['OwnerUserId'],
-             "raw:CreationDate": row['CreationDate'],
-             "raw:Score": row['Score'],
-             "raw:Title": row['Title'],
-             "raw:Body": row['Body'],
-             "mod:Title": row['mod_title'],
-             "mod:Body": row['mod_body']
-            }
-    table.put(key, value)
-    table.send()
-
+        key = t[0]
+        value = {"raw:OwnerUserId": t[1],
+                 "raw:CreationDate": t[2],
+                 "raw:Score": t[3],
+                 "raw:Title": t[4],
+                 "raw:Body": t[5],
+                 "mod:Title": t[6],
+                 "mod:Body": t[7]
+                 }
+        table.put(key, value)
         # except:
         #     print(t)
 
