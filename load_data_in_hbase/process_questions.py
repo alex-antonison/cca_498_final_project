@@ -84,7 +84,7 @@ def batch_insert_graph(batch):
 
 
 spark = SparkSession.builder.master("local[*]").appName("CCA") \
-    .config("spark.executor.memory", "30gb") \
+    .config("spark.executor.memory", "10gb") \
     .getOrCreate()
 
 questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/Questions.csv", encoding='latin1')
