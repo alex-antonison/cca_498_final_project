@@ -86,7 +86,7 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
-# df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+
 
 questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
@@ -126,6 +126,9 @@ rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line
 
 # rdd.foreachPartition(bulk_insert_hbase)
 
-rdd.foreachPartition(batch_insert_graph)
+
+df2 = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
+
+df2.rdd.foreachPartition(batch_insert_graph)
 
 spark.stop()
