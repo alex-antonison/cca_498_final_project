@@ -37,7 +37,7 @@ def bulk_insert_hbase(batch):
     table = happybase.Connection(server).table(table_name).batch(timestamp=123456789)
     for t in batch:
         # try:
-        print(t[0])
+        # print(t[0])
         key = t[0]
         value = {"raw:OwnerUserId": t[1],
                  "raw:CreationDate": t[2],
