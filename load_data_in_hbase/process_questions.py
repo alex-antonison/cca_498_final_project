@@ -113,7 +113,7 @@ questions_df['Score'] = questions_df['Score'].astype(str)
 
 df = spark.createDataFrame(questions_df)
 
-print(df.printSchema())
+# print(df.printSchema())
 
 # Remove HTML tags
 rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[4]), remove_html_tags(line[5])))
