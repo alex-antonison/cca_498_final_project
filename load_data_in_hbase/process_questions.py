@@ -90,9 +90,9 @@ def batch_insert_graph(batch):
 
 # df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Questions_New.csv')
 
-# questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
-questions_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
+# questions_df = pd.read_csv("/Users/adantonison/workspace/repos/cca_498_final_project/raw_data/local-dev/Questions_New.csv", encoding='latin1')
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
