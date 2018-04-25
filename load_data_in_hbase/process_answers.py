@@ -72,11 +72,11 @@ class InsertAnswerData(object):
                parent_id=parent_id, score=score)
 
 
-def covert_to_int(val):
-    if val == 'NA':
-        return -1
-    else:
-        return int(float(val))
+# def covert_to_int(val):
+#     if val == 'NA':
+#         return -1
+#     else:
+#         return int(float(val))
 
 
 def batch_insert_graph(batch):
@@ -114,7 +114,7 @@ print(df.printSchema())
 # # Remove HTML tags
 rdd = df.rdd.map(lambda line: (line[0], line[1], line[2], line[3], line[4], line[5], remove_html_tags(line[5])))
 
-# rdd.foreachPartition(bulk_insert_hbase)
+rdd.foreachPartition(bulk_insert_hbase)
 
 
 answers_df['Id'] = answers_df['Id'].astype(int)
