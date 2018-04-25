@@ -91,12 +91,10 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
 
 tags_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Tags.csv", encoding='latin1')
 
-tags_schema = StructType([StructField('Id', IntegerType(),True),
-                          StructField('Tag', StringType(),True)])
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-df = spark.createDataFrame(tags_df, tags_schema)
+df = spark.createDataFrame(tags_df)
 
 rdd = df.rdd.groupByKey().mapValues(list)
 
