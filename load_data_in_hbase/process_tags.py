@@ -87,14 +87,14 @@ spark = SparkSession.builder.master("local[*]").appName("CCA") \
     .config("spark.executor.memory", "40gb") \
     .getOrCreate()
 
-# df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Tags.csv')
+df = spark.read.format('csv').option('header', 'true').load('hdfs://localhost:8020/demo/data/CCA/Tags.csv')
 
-tags_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Tags.csv", encoding='latin1')
+# tags_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-dev/Tags.csv", encoding='latin1')
 
 
 # rdd = df.rdd.filter(lambda line: remove_bad_record(line=line))
 
-df = spark.createDataFrame(tags_df)
+# df = spark.createDataFrame(tags_df)
 
 rdd = df.rdd.groupByKey().mapValues(list)
 
