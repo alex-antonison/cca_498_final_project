@@ -34,7 +34,7 @@ def remove_bad_record(line):
 
 
 def bulk_insert_hbase(row):
-    table = happybase.Connection(server).table(table_name).batch(timestamp=123456789)
+    table = happybase.Connection(server).table(table_name)
     # for t in batch:
         # try:
         # print(t[0])
@@ -48,7 +48,7 @@ def bulk_insert_hbase(row):
              "mod:Body": row['mod_body']
             }
     table.put(key, value)
-    table.send()
+
         # except:
         #     print(t)
 
@@ -98,6 +98,8 @@ questions_df = pd.read_csv("/home/ubuntu/cca_498_final_project/raw_data/local-de
 
 questions_df['mod_title'] = questions_df['Title'].apply(remove_html_tags)
 questions_df['mod_body'] = questions_df['Body'].apply(remove_html_tags)
+
+
 
 questions_df.apply(bulk_insert_hbase, axis=1)
 
